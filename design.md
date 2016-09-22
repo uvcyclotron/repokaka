@@ -26,15 +26,15 @@ In essence, Crabot may be considered as a combination of code, test and document
 
 ## Design Sketches
 ### Wireframe
-![wire1](wireframe1_2.png)
-![wire2](wireframe2_2.png)
-![wire3](wireframe3_2.png)
+![wire1](media/wireframe1_2.png)
+![wire2](media/wireframe2_2.png)
+![wire3](media/wireframe3_2.png)
 
 
 ### Story-board
-![sb1](w1.png)
-![sb2](w2.png)
-![sb3](w3.png)
+![sb1](media/w1.png)
+![sb2](media/w2.png)
+![sb3](media/w3.png)
 
 
 
