@@ -1,12 +1,5 @@
 # CRABOT - Code Review Assist Bot
 
-#### Team
-+ [Anindita Mozumder](amozumd@ncsu.edu)
-+ [Chethan Nannivala Thipperudrappa](cnanniv@ncsu.edu)
-+ [Devarshi Singh](dsingh4@ncsu.edu)
-+ [Ritesh Porey](rrporey@ncsu.edu)
-+ [Utkarsh Verma](uverma@ncsu.edu)
-
 ## Problem Statement
 Today’s software industry demands agility, flexibility and efficiency. A major timesink for developers are tasks related to code review (CR). When posting code for review, developers typically follow a template, and add information to it - such as a list of changes made, list of new dependencies added with reason, and, test coverage figures. It is also of interest to ensure that the new changes made do not duplicate any existing code and follow good coding styles. Code review is thus a very important part of the software engineering process. However, manually collecting and writing all this information for  CR is a mundane, repetitive, error-prone and cumbersome job. Whether a novice developer or an expert, there is high probability that they overlook some checkpoints, eventually resulting in poor software. 
 
@@ -33,14 +26,21 @@ In essence, Crabot may be considered as a combination of code, test and document
 
 ## Design Sketches
 ### Wireframe
-
+![wire1](wireframe1_2.png)
+![wire2](wireframe2_2.png)
+![wire3](wireframe3_2.png)
 
 
 ### Story-board
+![sb1](w1.png)
+![sb2](w2.png)
+![sb3](w3.png)
 
 
 
 ## Architecture Design
+![architecture](media/arch_design.png)
+
 Our bot design fits best with the Call & Return (C&R) architecture pattern, and with the Main program with Subprogram pattern in specific. It is not a pure C&R architecture though, but is a hybrid, where some subprograms follow a Batch Sequential data flow architecture. The main thread running the bot, calls the subprograms which are independent modules to do different tasks (coverage calculation, duplicate search, and others), and then it compiles all this information returned from each module into a single structured text block.  
 
 
