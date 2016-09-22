@@ -4,9 +4,6 @@
 Today’s software industry demands agility, flexibility and efficiency. A major timesink for developers are tasks related to code review (CR). When posting code for review, developers typically follow a template, and add information to it - such as a list of changes made, list of new dependencies added with reason, and, test coverage figures. It is also of interest to ensure that the new changes made do not duplicate any existing code and follow good coding styles. Code review is thus a very important part of the software engineering process. However, manually collecting and writing all this information for  CR is a mundane, repetitive, error-prone and cumbersome job. Whether a novice developer or an expert, there is high probability that they overlook some checkpoints, eventually resulting in poor software. 
 
 
-In every software development lifecycle, a developer needs to document the changes he/she made to the existing code. Building a code needs to take into account the dependencies of several packages. The code is tested and the percentage of code covered in the test cases is also documented. When several programmers collaborate in a project, it is likely that the code written by one may be very similar to what another programmer wrote. Such duplications should be minimal, or none at all. 
-
-
 In our project, we endeavour to create a bot which will facilitate a software engineer to complete the tasks listed before, saving the developer precious time to devote to other tasks. We hope that using our bot will also reduce the hassles faced by reviewers and reduce errors.
 
 ## Bot Description
