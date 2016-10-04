@@ -67,6 +67,7 @@ The different subprograms are independent, and can be run parallely in different
 Bot can smartly decide if it should run analysis or not (eg: if it is a very small commit, it can decide not to run the analysis). We also plan to use 3rd party tools where possible, for example [JaCoCo][link_jacoco] for code-coverage analysis, and, [GumTree][link_gumtree] for code-duplicates search.
 
 
+## Additional Patterns
 
 
 
