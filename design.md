@@ -29,9 +29,8 @@ In essence, Crabot may be considered as a combination of code, test and document
 
 
 ### Story-board
-![sb1](media/w1.png)
-![sb2](media/w2.png)
-![sb3](media/w3.png)
+![sb1](media/sb1.png)
+![sb2](media/sb2.png)
 
 
 
