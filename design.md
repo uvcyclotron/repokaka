@@ -7,7 +7,7 @@ Today a major timesink for developers are tasks related to code review (CR). Whe
 In this project, we try to create such a bot which will facilitate a software developer in this task, saving the developer precious time to devote to other tasks. We hope that using our bot will make the life of developers and code reviewers easier, by proving succint information useful for quick evaluation.
 
 ## Bot Description
-Crabot takes code submitted for PR (pull request), runs different analysis and posts results to help software developers to easily review the code. Specifically Crabot will perform the following tasks:
+Our bot (Crabot) takes code submitted for PR (pull request), runs different analysis and posts results to help software developers to easily review the code. Specifically Crabot will perform the following tasks:
 
 + Evaluate and report test coverage of newly added code
 + Report newly added code dependencies
