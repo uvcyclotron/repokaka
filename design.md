@@ -4,7 +4,7 @@
 Today a major timesink for developers are tasks related to code review (CR). When posting code for review, developers typically follow a template, and add information to it - such as a list of changes made, list of new dependencies added along with reason, and, test coverage figures. It's also of interest to ensure that the new changes made do not duplicate any existing code and follow good coding styles. Proper code review is, thus, an essential part of the software engineering process. However, manually collecting and writing a lot of this information for CR is a mundane, and repetitive task quite prone to errors. It is a job very much suitable for automation with a bot. 
 
 
-In this project, we try to create such a bot which will facilitate a software developer in this task, saving the developer precious time to devote to other tasks. We hope that using our bot will make the life of developers and code reviewers easier, by proving succint information useful for quick evaluation.
+In this project, we try to create such a bot which will facilitate a software developer in this task, saving the developer precious time to devote to other tasks. We hope that using our bot will make the life of developers and code reviewers easier, by providing succint information useful for quick evaluation.
 
 ## Bot Description
 Our bot (Crabot) takes code submitted for PR (pull request), runs different analysis and posts results to help software developers to easily review the code. Specifically Crabot will perform the following tasks:
