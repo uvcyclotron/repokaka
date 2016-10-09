@@ -41,7 +41,7 @@ The interaction with our bot is supposed to happen on the GitHub platform. It wi
 
 The bot's architecture fits best with the Call & Return (C&R) architecture pattern, and with the Main program with Subprogram pattern in specific. It is not a pure C&R architecture though, but is a hybrid, where some subprograms follow a Batch Sequential data flow architecture. The main thread running the bot, calls the subprograms which are independent modules to do different tasks (coverage calculation, duplicate search, and others), and then it compiles all this information returned from each module into a single structured text block.  
 
-Crabot's design also belongs to repository model, the data is being posted at a common platform i,e github repository page. It uses a push model: crabot, reviewer and deveopper can write data and is being read by the components involved.
+Crabot's architecture also belongs to repository model, data is being posted at a common platform i,e github repository page. It uses a push model: crabot, reviewer and deveopper can write data and is being read by the components involved.
 
 Some modules are simple subprograms, and return the information after performing some computation. These are :
 
@@ -67,7 +67,7 @@ Bot can smartly decide if it should run analysis or not (eg: if it is a very sma
 
 
 ## Additional Patterns
-Crabot's architecture also belongs to event systems as it involves both explicit and implict invocations. Based on thresholds set on different parameters, bot will have an implicit invocation when a pull request is made. And if the thresholds are not met then the bot can also be explicitly called by tagging the bot like any other user. 
+Crabot's architecture also belongs to event systems as it involves both explicit and implict invocations. Based on thresholds set on different parameters, bot will have an implicit invocation when a pull request is made. And if the thresholds are not met then the bot can also be explicitly called by tagging the bot like any other user.
 
 [link_gumtree]:https://github.com/GumTreeDiff/gumtree
 [link_jacoco]:http://www.eclemma.org/index.html
