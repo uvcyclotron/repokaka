@@ -7,7 +7,7 @@
 + [Ritesh Porey](https://github.ncsu.edu/rrporey)
 + [Utkarsh Verma](https://github.ncsu.edu/uverma)
 
-We are working on an exciting bot, which we think can help the software developers save some valuable time and hassle! Check out our progress here.
+We are working on an exciting bot! We think it can help software developers save some valuable time and hassle. Check out our progress here.
 
 + Milestone: [Design](design.md)
 + Milestone: Bot 
