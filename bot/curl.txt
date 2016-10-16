@@ -1,5 +1,5 @@
 curl -u "codekaka" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/pull_request" -F "hub.callback=http://ec2-52-40-143-15.us-west-2.compute.amazonaws.com:5000/codekaka/Repo1/pull_request"
 
-curl -u "codekaka" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/pull_request_review_comment" -F "hub.callback=http://ec2-52-40-143-15.us-west-2.compute.amazonaws.com:5000/codekaka/Repo1/pull_request_review_comment"
+curl -u "codekaka" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/issue_comment" -F "hub.callback=http://ec2-52-40-143-15.us-west-2.compute.amazonaws.com:5000/codekaka/Repo1/issue_comment"
 
 
