@@ -1,7 +1,7 @@
 import ast
 import json
 import os
-
+import collections
 from post_comment import post_comment
 
 from flask import Flask, render_template, request, url_for,jsonify
@@ -26,7 +26,15 @@ class crabot:
         self.method=method
         self.request=request
 
-
+    def convert_dict_string(self,data):
+        if isinstance(data, basestring):
+            return str(data)
+        elif isinstance(data, collections.Mapping):
+            return dict(map(self.convert_dict_string, data.iteritems()))
+        elif isinstance(data, collections.Iterable):
+            return type(data)(map(self.convert_dict_string, data))
+        else:
+            return data
 
     #Get payload from the request object
     def get_payload(self,request_dict):
@@ -86,7 +94,8 @@ class crabot:
 
         # Formatting it as a dictionary
         request_dict={key: body[key] for key in body}
-        dict_payload=self.get_payload(request_dict)
+        dict_payload_uni=self.get_payload(request_dict)
+        dict_payload=self.convert_dict_string(dict_payload_uni)
         rest_git=Github(os.environ['oauth_token'])
         if(self.method==PR_COMMENT):
                 print "inside PR_COMMENT"
@@ -99,19 +108,8 @@ class crabot:
 #Main function that handles the post request
 @app.route('/<user>/<repo>/<method>',methods=['POST'])
 def func_main(user,repo,method):
-
         crabot_obj=crabot(user,repo,method,request)
         crabot_obj.process_request()
-        #comment,issue_num,commenting_user,comment_type=get_comment_details(dict_payload)
-
-
-        #print dict_payload
-        #print post_comment_status
-
-        #is_tagged=is_codekaka_tagged(comment)
-
-        #print is_tagged
-
         return "Obtained data"
 
 
