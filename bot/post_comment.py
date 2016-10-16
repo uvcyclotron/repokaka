@@ -18,12 +18,12 @@ method returns -1 for errors and exceptions, and returns object of type IssueCom
 def post_comment(text, github_object, user, reponame, issue_number):
 
 	# verify sane input types 
-	if(not(type(text) == str and
-		isinstance(github_object, Github) and
-		type(user) == str and
-		type(reponame) == str and
-		type(issue_number) == int )):
-		return -1
+#	if(not(type(text) == str and
+#		isinstance(github_object, Github) and
+#		type(user) == str and
+#		type(reponame) == str and
+#		type(issue_number) == int )):
+#		return -1
 
 	# handle exceptions from bad inputs
 	try:

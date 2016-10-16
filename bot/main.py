@@ -3,11 +3,12 @@ import json
 import os
 import collections
 from post_comment import post_comment
+from post_commit_comment import post_commit_comment
 
 from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
 from github import Github
-from github import IssueComment
+from github import IssueComment, CommitComment
 
 app = Flask(__name__)
 #from post_comment import post_comment
@@ -17,7 +18,7 @@ COMMENT_ON_ISSUE="issues"
 CODE_KAKA="codekaka"
 PR="pull_request"
 PR_COMMENT="issue_comment"
-
+COMMIT_COMMENT="commit_comment"
 
 class crabot:
     def __init__(self, user, repo, method,request):
@@ -41,8 +42,6 @@ class crabot:
             #Extracting payload and converting it from unicode to str
             str_req_dict=str(request_dict['payload'])
             temp_dict=str_req_dict.replace("'", "\"")
-
-            #loading a json object from the string
             dict_payload=json.loads(temp_dict)
             return dict_payload
 
@@ -72,6 +71,9 @@ class crabot:
     def get_reply_to_PR(self):
             return "Pull request was made succesfully, do you want me to run the below analysis? 1. Code coverage, 2. New dependencies added, 3. Documentation"
 
+    def get_reply_to_CC(self):
+        return "Responding to commit comment"
+
     def respond_to_comment(self,dict_payload,rest_git):
             comment,issue_num,commenting_user,comment_type=self.get_comment_details(dict_payload)
             if(not (commenting_user == 'codekaka')  and comment_type is COMMENT_ON_PR and self.is_codekaka_tagged(comment)):
@@ -84,6 +86,11 @@ class crabot:
             reply=self.get_reply_to_PR()
             post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
             print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
+
+    def respond_to_commit_comment(self,rest_git,sha_num):
+        reply=self.get_reply_to_CC()
+        post_comment_status=post_commit_comment(reply, rest_git,self.user,self.repo,sha_num)
+        print "SUCCESS" if isinstance(post_comment_status, CommitComment.CommitComment) else "FAILURE"
 
     def process_request(self):
         #Extracting the information from the request object
@@ -107,6 +114,10 @@ class crabot:
                 print "inside PR"
                 issue_num=dict_payload['pull_request']['number']
                 self.repsond_to_PR(rest_git,issue_num)
+        elif(self.method==COMMIT_COMMENT):
+            print "inside commit comment"
+            sha_num=dict_payload['comment']['commit_id']
+            self.respond_to_commit_comment(rest_git,sha_num)
 
 
 #Main function that handles the post request
