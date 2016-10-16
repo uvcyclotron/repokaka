@@ -80,9 +80,9 @@ class crabot:
                     post_comment_status=post_comment(reply, rest_git, self.user,self.repo,issue_num)
                     print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
-    def repsond_to_PR(self):
-            reply=get_repy_for_PR()
-            post_comment_status=post_comment(reply, rest_git,self.user,self.repo, issue_num)
+    def repsond_to_PR(self,rest_git,issue_num):
+            reply=self.get_reply_to_PR()
+            post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
             print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
     def process_request(self):
@@ -97,12 +97,16 @@ class crabot:
         dict_payload_uni=self.get_payload(request_dict)
         dict_payload=self.convert_dict_string(dict_payload_uni)
         rest_git=Github(os.environ['oauth_token'])
+        print dict_payload
+
+
         if(self.method==PR_COMMENT):
                 print "inside PR_COMMENT"
                 self.respond_to_comment(dict_payload,rest_git)
         elif(self.method==PR):
                 print "inside PR"
-                self.respond_to_PR(dict_payload,rest_git)
+                issue_num=dict_payload['pull_request']['number']
+                self.repsond_to_PR(rest_git,issue_num)
 
 
 #Main function that handles the post request
