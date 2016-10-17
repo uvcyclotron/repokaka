@@ -21,7 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 
-public class WebTest
+public class WebTest2
 {
 	private static WebDriver driver;
 	
@@ -42,16 +42,13 @@ public class WebTest
 		driver.quit();
 	}
 	
-	@Test
 	public void commentOnPR() throws Exception
-	{
-		driver.get("https://github.com/codekaka/Repo1/pull/3");
-		
+	{		
 		// http://geekswithblogs.net/Aligned/archive/2014/10/16/selenium-and-timing-issues.aspx
-		WebDriverWait wait = new WebDriverWait(driver, 30);
+		WebDriverWait wait = new WebDriverWait(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@id='new_comment_field']")));
 		WebElement textArea = driver.findElement(By.xpath("//textarea[@id='new_comment_field']"));			
-		textArea.sendKeys("@codekaka can you analyze this");
+		textArea.sendKeys("@codekaka can you analyze this?");
 		
 		List <WebElement> btns = driver.findElements(By.xpath("//button[@class='btn btn-primary']"));
 		final String COMMENT_STR = "Comment";
@@ -60,9 +57,20 @@ public class WebTest
 				btn.submit();
 			}
 		}
+	}
+	
+	@Test
+	public void verifyCrabotComment() throws Exception
+	{
+		driver.get("https://github.com/codekaka/Repo1/pull/3");
+		commentOnPR();
+		Thread.sleep(10000);	//wait for crabot to comment.
 		
-		assertNotNull(textArea);
-		assertNotNull(btns);
+		WebElement lastCommentATag = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
+		assertNotNull(lastCommentATag);
+		//System.out.println("selenium = " + lastCommentATag.getAttribute("href"));
+		final String codeKakaUserURL = "https://github.com/codekaka";
+		assertEquals(codeKakaUserURL, lastCommentATag.getAttribute("href"));
 	}
 	
 	public static void login() {
@@ -71,9 +79,10 @@ public class WebTest
         WebElement pass = driver.findElement(By.xpath("//input[@id='password']"));
         WebElement button = driver.findElement(By.xpath("//input[@value='Sign in']"));         
 
-        id.sendKeys("seleniumcodekaka");
+        id.sendKeys("testcodekaka");
         pass.sendKeys("codekaka123");
         button.submit();
     }
 
 }
+
