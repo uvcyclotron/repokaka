@@ -5,6 +5,10 @@ import collections
 from post_comment import post_comment
 from post_commit_comment import post_commit_comment
 from sloc_count import sloc_count
+from util_coverage_calc import util_coverage_calc
+from util_dependency_checker import util_dependency_checker
+from util_docu_collector import util_docu_collector
+from util_duplicates_checker import util_duplicates_checker
 from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
 from github import Github
@@ -77,22 +81,31 @@ class crabot:
     def process_tagged_comment(self,comment):
             print "comment is "+ comment
             reply=""
+            results=""
             count=0
             if comment.lower().find('run all')>-1:
                 reply="Ran all the analysis and here are the results"
-                return reply
+                results=util_coverage_calc()
+                results+=util_dependency_checker()
+                results+=util_duplicates_checker()
+                results+=util_docu_collector()
+                return reply,results
             if comment.find('s1')>-1:
                 count+=1
                 reply+=" s1"
+                results=util_coverage_calc()
             if comment.find('s2')>-1:
                 count+=1
                 reply+=", s2"
+                results+=util_dependency_checker()
             if comment.find('s3')>-1:
                 count+=1
                 reply+=", s3"
+                results+=util_duplicates_checker()
             if comment.find('s4')>-1:
                 count+=1
                 reply+=", s4."
+                results+=util_docu_collector()
 
             if count>0:
                 if(count==1):
@@ -101,7 +114,7 @@ class crabot:
                     reply="You have selected options "+reply
             else:
                 reply="Tell me what can I do for you?"
-            return reply
+            return reply,results
 
     def get_reply_to_PR(self,dict_payload):
             return "Here are the results of your PR."
@@ -112,9 +125,9 @@ class crabot:
     def respond_to_PR_comment(self,dict_payload,rest_git):
             comment,issue_num,commenting_user,comment_type=self.get_comment_details(dict_payload)
             if(not (commenting_user == 'codekaka')  and comment_type is COMMENT_ON_PR and self.is_codekaka_tagged(comment)):
-                    reply=self.process_tagged_comment(comment)
+                    reply,results=self.process_tagged_comment(comment)
                     print "before post comment"
-                    post_comment_status=post_comment(reply, rest_git, self.user,self.repo,issue_num)
+                    post_comment_status=post_comment(reply+results, rest_git, self.user,self.repo,issue_num)
                     print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
     def respond_to_PR(self,rest_git,dict_payload):
