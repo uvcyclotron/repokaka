@@ -72,21 +72,7 @@ public class WebTest2
 		final String codeKakaUserURL = "https://github.com/codekaka";
 		assertEquals(codeKakaUserURL, lastCommentATag.getAttribute("href"));
 	}
-	@Test
-	public void CreatePR() throws Exception
-	{
-		
-	       WebDriverWait wait = new WebDriverWait(driver, 30);
-	       driver.get("https://github.com/codekaka/Repo1");
-	       WebElement pullReq = driver.findElement(By.xpath("//div[2]/div[1]/div[3]/div/div/div/a"));
-	       if(pullReq != null){
-	    	   pullReq.click();
-	    	   WebElement nxtScreenPullRequest = driver.findElement(By.xpath("//*[@id='new_pull_request']/div[2]/div/div/div[3]/button"));
-	    	   nxtScreenPullRequest.click();
-	    	   
-	       }
-	}
-	
+
 	public static void login() {
         driver.get("https://github.com/login");
         WebElement id = driver.findElement(By.xpath("//input[@id='login_field']"));
