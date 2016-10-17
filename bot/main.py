@@ -10,6 +10,7 @@ from flask_json_multidict import get_json_multidict
 from github import Github
 from github import IssueComment, CommitComment
 
+
 app = Flask(__name__)
 #from post_comment import post_comment
 
@@ -22,8 +23,8 @@ PR="pull_request"
 PR_COMMENT="issue_comment"
 COMMIT_COMMENT="commit_comment"
 
-PR_SIZE_SMALL=5
-PR_SIZE_MEDIUM=10
+PR_SIZE_SMALL=10
+PR_SIZE_MEDIUM=15
 #PR_SIZE_LARGE=2
 
 class crabot:
@@ -74,15 +75,36 @@ class crabot:
 
     #Process tagged comment
     def process_tagged_comment(self,comment):
-            reply="You have selected option"
-            if comment.find(1):
-                reply+="1,"
-            elif comment.find(2):
-                reply+="2,"
-            return "You just tagged me! I am always at your service"
+            print "comment is "+ comment
+            reply=""
+            count=0
+            if comment.lower().find('run all')>-1:
+                reply="Ran all the analysis and here are the results"
+                return reply
+            if comment.find('s1')>-1:
+                count+=1
+                reply+=" s1"
+            if comment.find('s2')>-1:
+                count+=1
+                reply+=", s2"
+            if comment.find('s3')>-1:
+                count+=1
+                reply+=", s3"
+            if comment.find('s4')>-1:
+                count+=1
+                reply+=", s4."
+
+            if count>0:
+                if(count==1):
+                    reply="You have selected option s1"
+                else:
+                    reply="You have selected options "+reply
+            else:
+                reply="Tell me what can I do for you?"
+            return reply
 
     def get_reply_to_PR(self,dict_payload):
-            return "Here are the results of your PR"
+            return "Here are the results of your PR."
 
     def get_reply_to_CC(self):
         return "Responding to commit comment"
@@ -95,21 +117,32 @@ class crabot:
                     post_comment_status=post_comment(reply, rest_git, self.user,self.repo,issue_num)
                     print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
-    def repsond_to_PR(self,rest_git,dict_payload):
-            reply=self.get_reply_to_PR()
+    def respond_to_PR(self,rest_git,dict_payload):
+            reply=""
             issue_num=dict_payload['pull_request']['number']
             pr_diff_url=dict_payload['pull_request']['diff_url']
             pr_size=sloc_count(pr_diff_url)
+            print pr_size
             if(pr_size<=PR_SIZE_SMALL):
-                return
+                reply="""Pull request was made succesfully and this is a small sized commit. Do you still want me to run analysis? \n
+                        Reply with run all if you want to run.
+                        """
+
             elif(pr_size<=PR_SIZE_MEDIUM):
-                reply=get_reply_to_PR(dict_payload)
-                post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
-                print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
+                reply=self.get_reply_to_PR(dict_payload)
+                reply+=" This is a medium sized commit."
+
             elif(pr_size>PR_SIZE_MEDIUM):
-                reply="Pull request was made succesfully, do you want me to run the below analysis? 1. Code coverage, 2. New dependencies added, 3. Documentation"
-                post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
-                print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
+                reply="""Pull request was made succesfully and this is a large sized commit. Do you want me to run the following analysis? \n
+                        s1: Code coverage \n
+                        s2: Code Duplication \n
+                        s3: New dependencies added \n
+                        s4: Documentation \n
+                        Please reply with s1,s2,s3,s4 for the respective analysis \n
+                        example: To run Code coverage, Code Duplication, reply with run s1,s2.
+                        """
+            post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
+            print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
 
 
@@ -143,7 +176,7 @@ class crabot:
                 self.respond_to_PR_comment(dict_payload,rest_git)
         elif(self.method==PR):
                 print "inside PR"
-                self.repsond_to_PR(rest_git,dict_payload)
+                self.respond_to_PR(rest_git,dict_payload)
         elif(self.method==COMMIT_COMMENT):
             print "inside commit comment"
 
