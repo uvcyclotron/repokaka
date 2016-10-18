@@ -62,8 +62,8 @@
 | Deliverable        |Items/Status                                               | Issues/Tasks  |
 | -------------------|:---------------------------------------------------------:| -------------:|
 | Use Case           | Get Code-review-stats manually for specific commit(s) |  |
-| Subflow            | S1                                                        |      |
-| Subflow            | S2      |     |
-| Subflow            | S3      |     |
-| Subflow            | S4      |     |
+| Subflow            | S1                                                        |[#29](https://github.ncsu.edu/uverma/crabot/issues/29)      |
+| Subflow            | S2      |[#29](https://github.ncsu.edu/uverma/crabot/issues/29)     |
+| Subflow            | S3      | [#30](https://github.ncsu.edu/uverma/crabot/issues/30)    |
+| Subflow            | S4      | [#30](https://github.ncsu.edu/uverma/crabot/issues/30)    |
 
