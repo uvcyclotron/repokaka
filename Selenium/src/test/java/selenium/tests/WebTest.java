@@ -21,7 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 
-public class WebTest2
+public class WebTest
 {
 	private static WebDriver driver;
 	
@@ -30,8 +30,8 @@ public class WebTest2
 	{
 		//driver = new HtmlUnitDriver();
 		ChromeDriverManager.getInstance().setup();
-		//driver = new ChromeDriver();
-		driver = new FirefoxDriver();		
+		driver = new ChromeDriver();
+		//driver = new FirefoxDriver();		
 		login();
 	}
 	
@@ -42,13 +42,13 @@ public class WebTest2
 		driver.quit();
 	}
 	
-	public void commentOnPR() throws Exception
+	public void commentOnPR(final String commentText) throws Exception
 	{		
 		// http://geekswithblogs.net/Aligned/archive/2014/10/16/selenium-and-timing-issues.aspx
 		WebDriverWait wait = new WebDriverWait(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@id='new_comment_field']")));
-		WebElement textArea = driver.findElement(By.xpath("//textarea[@id='new_comment_field']"));			
-		textArea.sendKeys("@codekaka can you analyze this?");
+		WebElement textArea = driver.findElement(By.xpath("//textarea[@id='new_comment_field']"));		
+		textArea.sendKeys(commentText);
 		
 		List <WebElement> btns = driver.findElements(By.xpath("//button[@class='btn btn-primary']"));
 		final String COMMENT_STR = "Comment";
@@ -60,11 +60,57 @@ public class WebTest2
 	}
 	
 	@Test
-	public void verifyCrabotComment() throws Exception
+	public void verifyCrabotCommentForLargeHappyCase() throws Exception
 	{
 		driver.get("https://github.com/codekaka/Repo1/pull/3");
-		commentOnPR();
-		Thread.sleep(10000);	//wait for crabot to comment.
+		final String commentText = "@codekaka Run S1,S3";
+		commentOnPR(commentText);
+		Thread.sleep(15000);	//wait for crabot to comment.
+		
+		WebElement lastCommentATag = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
+		assertNotNull(lastCommentATag);
+		
+		final String codeKakaUserURL = "https://github.com/codekaka";
+		assertEquals(codeKakaUserURL, lastCommentATag.getAttribute("href"));
+	}
+	
+	@Test
+	public void verifyCrabotCommentForLargeAlternativeCase() throws Exception
+	{
+		driver.get("https://github.com/codekaka/Repo1/pull/3");
+		final String commentText = "@codekaka Run all";
+		commentOnPR(commentText);
+		Thread.sleep(15000);	//wait for crabot to comment.
+		
+		WebElement lastCommentATag = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
+		assertNotNull(lastCommentATag);
+		
+		final String codeKakaUserURL = "https://github.com/codekaka";
+		assertEquals(codeKakaUserURL, lastCommentATag.getAttribute("href"));
+	}
+	
+	@Test
+	public void verifyCrabotCommentForSmallHappyCase() throws Exception
+	{
+		driver.get("https://github.com/codekaka/Repo1/pull/3");
+		final String commentText = "@codekaka Run all";
+		commentOnPR(commentText);
+		Thread.sleep(15000);	//wait for crabot to comment.
+		
+		WebElement lastCommentATag = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
+		assertNotNull(lastCommentATag);
+		
+		final String codeKakaUserURL = "https://github.com/codekaka";
+		assertEquals(codeKakaUserURL, lastCommentATag.getAttribute("href"));
+	}
+	
+	@Test
+	public void verifyCrabotCommentForSmallAlternativeCase() throws Exception
+	{
+		driver.get("https://github.com/codekaka/Repo1/pull/3");
+		final String commentText = "@codekaka Run S1,S3";
+		commentOnPR(commentText);
+		Thread.sleep(15000);	//wait for crabot to comment.
 		
 		WebElement lastCommentATag = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
 		assertNotNull(lastCommentATag);
