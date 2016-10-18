@@ -93,9 +93,6 @@ public class WebTest
 	public void testCrabotCommentForMediumHappyCase() throws Exception
 	{
 		driver.get("https://github.com/codekaka/Repo1/pull/3");
-		//final String commentText = "@codekaka Run all";
-		//commentOnPR(commentText);
-		//Thread.sleep(15000);	//wait for crabot to comment.
 		WebDriverWait wait = new WebDriverWait(driver, 60);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//textarea[@id='new_comment_field']")));
 		
@@ -104,6 +101,30 @@ public class WebTest
 		
 		final String codeKakaUserURL = "https://github.com/codekaka";
 		assertEquals(codeKakaUserURL, lastCommentATag.getAttribute("href"));
+	}
+	
+	@Test
+	public void testCrabotCommentForMediumAlternativeCase() throws Exception
+	{
+		driver.get("https://github.com/codekaka/Repo1/pull/3");
+		String commentText = "@codekaka Hey!";
+		commentOnPR(commentText);
+		Thread.sleep(15000);	//wait for crabot to comment.
+		
+		WebElement lastCommentATag1 = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
+		assertNotNull(lastCommentATag1);
+		
+		final String codeKakaUserURL = "https://github.com/codekaka";
+		assertEquals(codeKakaUserURL, lastCommentATag1.getAttribute("href"));
+		
+		commentText = "@codekaka Run all!";
+		commentOnPR(commentText);
+		Thread.sleep(15000);	//wait for crabot to comment.
+		
+		WebElement lastCommentATag2 = driver.findElement(By.xpath("//div[@class='timeline-comment-wrapper js-comment-container'][last()]/a"));		
+		assertNotNull(lastCommentATag2);
+		
+		assertEquals(codeKakaUserURL, lastCommentATag2.getAttribute("href"));
 	}
 	
 	@Test
