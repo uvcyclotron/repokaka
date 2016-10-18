@@ -4,4 +4,5 @@ curl -u "codekaka" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub
 
 curl -u "codekaka" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/commit_comment" -F "hub.callback=http://ec2-52-40-143-15.us-west-2.compute.amazonaws.com:5000/codekaka/Repo1/commit_comment"
 
-
+To run the bot continuosly on ec2 use the screen command as this link suggests
+http://stackoverflow.com/questions/6232564/how-to-continuously-run-a-python-script-on-an-ec2-server
