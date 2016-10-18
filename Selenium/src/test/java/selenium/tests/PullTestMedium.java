@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 
 
-public class PullandComment {
+public class PullTestMedium {
 	private static WebDriver driver;
 	
 	@BeforeClass
@@ -60,8 +60,10 @@ public class PullandComment {
 //
 //	    	   
 //	       }
-	       int i = 7;
-	       String patchNo = "patch-7";
+	       //change patch no
+	       int i = 12;
+	       String patchNo = "patch-12";
+	       //end change
 	       driver.get("https://github.com/KakanotCollaborator/Repo1");
 
 	       WebElement PR1 = driver.findElement(By.xpath("//div[2]/div[1]/div[4]/a"));
