@@ -1,25 +1,24 @@
 # util_duplicates_checker
 # utility for checking code duplicates
 # using PyGithub
-# for CRA-BOT 
+# for CRA-BOT
 
 from github import Github
 
 
 '''
 method parameters:
-	x		is 
+	x		is
 
 returns ..
 
-description..	
+description..
 
 '''
 def util_duplicates_checker():
 	return """
 Found these duplicates:
-    [1] ....
-
-    [2] ....
- 
+-----------------------
+[1] ....
+[2] ....
 """

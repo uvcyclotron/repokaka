@@ -1,23 +1,24 @@
 # util_dependency_checker
 # utility for checking dependency changes
 # using PyGithub
-# for CRA-BOT 
+# for CRA-BOT
 
 from github import Github
 
 
 '''
 method parameters:
-	x		is 
+	x		is
 
 returns ..
 
-description..	
+description..
 
 '''
 def util_dependency_checker():
 	return """
 Dependency Changes:
+---------------------
 + boto.py
 + pygithub.py
 - pyunit

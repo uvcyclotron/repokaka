@@ -128,12 +128,6 @@ class crabot:
                 reply=DESCRIPTION_TEXT
             return reply,results
 
-    def get_reply_to_PR(self,dict_payload):
-            return "Here are the results of your PR."
-
-    def get_reply_to_CC(self):
-        return "Responding to commit comment"
-
     def respond_to_PR_comment(self,dict_payload,rest_git):
             comment,issue_num,commenting_user,comment_type=self.get_comment_details(dict_payload)
             if(not (commenting_user == 'codekaka')  and comment_type is COMMENT_ON_PR and self.is_codekaka_tagged(comment)):
@@ -154,7 +148,6 @@ class crabot:
                         """
 
             elif(pr_size<=PR_SIZE_MEDIUM):
-                reply=self.get_reply_to_PR(dict_payload)
                 reply+=" This is a medium sized commit."
 
             elif(pr_size>PR_SIZE_MEDIUM):
@@ -165,12 +158,11 @@ class crabot:
 
 
     def respond_to_commit_comment(self,rest_git,dict_payload):
-        reply=self.get_reply_to_CC()
         sha_num=dict_payload['comment']['commit_id']
         comment=dict_payload['comment']['body']
         if(self.is_codekaka_tagged(comment)):
-            process_tagged_comment(self,comment)
-            post_comment_status=post_commit_comment(reply, rest_git,self.user,self.repo,sha_num)
+            reply,results=self.process_tagged_comment(comment)
+            post_comment_status=post_commit_comment(reply+results, rest_git,self.user,self.repo,sha_num)
             print "SUCCESS" if isinstance(post_comment_status, CommitComment.CommitComment) else "FAILURE"
 
 
