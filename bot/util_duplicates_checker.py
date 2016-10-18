@@ -17,9 +17,9 @@ description..
 '''
 def util_duplicates_checker():
 	return """
-		Found these duplicates:
-			[1] ....
+Found these duplicates:
+    [1] ....
 
-			[2] ....
-			
-			"""
+    [2] ....
+ 
+"""

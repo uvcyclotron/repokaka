@@ -17,8 +17,8 @@ description..
 '''
 def util_dependency_checker():
 	return """
-		Dependency Changes:
-		+ boto.py
-		+ pygithub.py
-		- pyunit
-		"""
+Dependency Changes:
++ boto.py
++ pygithub.py
+- pyunit
+"""
