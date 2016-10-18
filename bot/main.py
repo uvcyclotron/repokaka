@@ -83,7 +83,8 @@ class crabot:
             reply=""
             results=""
             count=0
-            if comment.lower().find('run all')>-1:
+	    comment=comment.lower()
+            if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results"
                 results=util_coverage_calc()
                 results+=util_dependency_checker()
