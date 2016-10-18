@@ -13,7 +13,7 @@ from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
 from github import Github
 from github import IssueComment, CommitComment
-
+#from validate_sha import validate_sha
 
 app = Flask(__name__)
 #from post_comment import post_comment
@@ -22,6 +22,17 @@ COMMENT_ON_PR="pull"
 COMMENT_ON_ISSUE="issues"
 CODE_KAKA="codekaka"
 PR="pull_request"
+
+DESCRIPTION_TEXT="""Do you want me to run any or all of the following analysis?
+                    \ns1: Code coverage
+                    s2: Code Duplication
+                    s3: Dependency Analysis
+                    s4: Documentation
+                    run all: To run all the above analysis
+                    \nPlease reply with s1, s2, s3, s4 or 'run all' for the respective analysis
+                    Example 1: To run Code coverage, Code Duplication, reply with "run s1,s2"
+                    Example 2: To run all the analysis, reply with "run all".
+                    Note: Reply commands are not case sensitive."""
 
 #comment_type because, GitHub doesn't differentiate the comments between issues comments and PR comments.
 PR_COMMENT="issue_comment"
@@ -114,7 +125,7 @@ class crabot:
                 else:
                     reply="You have selected options "+reply
             else:
-                reply="Tell me what can I do for you?"
+                reply=DESCRIPTION_TEXT
             return reply,results
 
     def get_reply_to_PR(self,dict_payload):
@@ -147,14 +158,7 @@ class crabot:
                 reply+=" This is a medium sized commit."
 
             elif(pr_size>PR_SIZE_MEDIUM):
-                reply="""Pull request was made succesfully and this is a large sized commit. Do you want me to run the following analysis? \n
-                        s1: Code coverage \n
-                        s2: Code Duplication \n
-                        s3: New dependencies added \n
-                        s4: Documentation \n
-                        Please reply with s1,s2,s3,s4 for the respective analysis \n
-                        example: To run Code coverage, Code Duplication, reply with run s1,s2.
-                        """
+                reply="Pull request was made succesfully and this is a large sized commit."+ DESCRIPTION_TEXT
             post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
             print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
@@ -165,8 +169,10 @@ class crabot:
         sha_num=dict_payload['comment']['commit_id']
         comment=dict_payload['comment']['body']
         if(self.is_codekaka_tagged(comment)):
+            process_tagged_comment(self,comment)
             post_comment_status=post_commit_comment(reply, rest_git,self.user,self.repo,sha_num)
             print "SUCCESS" if isinstance(post_comment_status, CommitComment.CommitComment) else "FAILURE"
+
 
 
 
