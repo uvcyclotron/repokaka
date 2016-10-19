@@ -20,7 +20,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import io.github.bonigarcia.wdm.ChromeDriverManager;
 
 
-public class PullTestLarge {
+public class PullandComment {
 	private static WebDriver driver;
 	
 	@BeforeClass
@@ -60,12 +60,10 @@ public class PullTestLarge {
 //
 //	    	   
 //	       }
-	       //change patch no
-	       int i = 13;
-	       String patchNo = "patch-13";
-	       //end change
+	       int i = 7;
+	       String patchNo = "patch-7";
 	       driver.get("https://github.com/KakanotCollaborator/Repo1");
-
+	       wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.xpath("//div[2]/div[1]/div[4]/a")));
 	       WebElement PR1 = driver.findElement(By.xpath("//div[2]/div[1]/div[4]/a"));
 
 	       if(PR1 != null)
