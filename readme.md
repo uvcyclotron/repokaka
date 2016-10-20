@@ -10,7 +10,7 @@
 We are working on an exciting bot! We think it can help software developers save some valuable time and hassle. Check out our progress here.
 
 + Milestone: [Design](design.md)
-+ Milestone: Bot 
++ Milestone: [Bot] (bot.md) 
 + Milestone: Service
 + Milestone: Deploy
 + Milestone: Report
