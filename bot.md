@@ -118,9 +118,23 @@ Crabot is integrated with Github. Whenever a bots submits a Pull Request to the 
 
 ## Bot Implementation
 
-
+#####Bot Platform: 
 
 ## Selenium Testing
+
+Selenium Testing was done for all the Use Cases described above. 
+
+The code for Testing the Use Cases:
+
+1) [Use Case 1] (https://github.ncsu.edu/uverma/crabot/blob/master/Selenium/src/test/java/selenium/tests/PullTestLarge.java)
+
+2) [Use Case 2] (https://github.ncsu.edu/uverma/crabot/blob/master/Selenium/src/test/java/selenium/tests/PullTestMedium.java)
+
+3) [Use Case 3] (https://github.ncsu.edu/uverma/crabot/blob/master/Selenium/src/test/java/selenium/tests/PullTestSmall.java)
+
+4) [Use Case 4] (https://github.ncsu.edu/uverma/crabot/blob/master/Selenium/src/test/java/selenium/tests/WebTest.java)
+
+The Screencast for the Selenium Testing is given below.
 
 ## Task Tracking
 
