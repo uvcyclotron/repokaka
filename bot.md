@@ -114,15 +114,22 @@
 
 ## Mocking
 
+Crabot is integrated with Github. Whenever a bots submits a Pull Request to the repo, Crabot will be called. Upon getting called on, Crabot will provide the user with the different kinds of analysis it can run. Once the user selects his/her choice, Crabot will be run the analysis and post the analysis as a comment. For this milestone, the analysis that Crabot will post is mocked and in the next milestone Crabot will run the analysis and post actual results. 
+
 ## Bot Implementation
 
-## Selenium Testing of each use case
+
+
+## Selenium Testing
 
 ## Task Tracking
 
-Link to the Task Tracking Worksheet: [WORKSHEET] (WORKSHEET.md)
+Task Tracking Worksheet: [WORKSHEET] (WORKSHEET.md)
 
 ## Screencast
 
+1) [Use Cases] (https://www.youtube.com/watch?v=nbwuwRXdze8&feature=youtu.be)
+
+2) [Selenium Testing] ()
 
 
