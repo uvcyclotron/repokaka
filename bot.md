@@ -93,21 +93,24 @@
 
 ## Mocking
 
-Crabot is integrated with Github. Whenever a user submits a Pull Request to the repo, Crabot will be called. Upon getting called on, Crabot will analyze the side of the commit and then based on that provide the user with the different kinds of analysis it can run. Once the user selects his/her choice, Crabot will run the requested services and post the results as a comment. 
+Crabot is integrated with Github. Whenever a user submits a Pull Request to the repo, Crabot will be called. Upon getting called on, Crabot will analyze the size of the commit and then based on that provide the user with the different kinds of analysis it can run. Once the user selects his/her choice, Crabot will run the requested services and post the results as a comment. 
 
 This workflow can be understood better by the following Flow Diagram. 
+![crabot_2](media/crabot_2.png)
 
 For this milestone, the results that Crabot will post for each service is mocked and in the next milestone Crabot will run the analysis and post actual results. 
 
 ## Bot Implementation
 
 #####Bot Platform: 
-
-
+We are implementing the bot in Python. The bot service written in Flask, runs on an EC2 server.
+For interacting with Github, we use the GitHub API using a Python wrapper (PyGithub). 
+When Crabot is added as a collaborator in a repo, it is first registered  by subscribing to that repository's events. This subscription is done manually at the moment, but will be automated in the next milestone. 
+Github allows a [PubSubHubbub](https://developer.github.com/v3/repos/hooks/#pubsubhubbub) model for web-hooks, which we are using. Once the bot is subscribed to these events (PR submission, comment posting on PR, comment posting on Commit), bot can listen in and respond. 
 
 #####Bot Integration: 
 
-Once Crabot is added a Collaborator to the Repo, the user can interact with the bot on the Github platform. Once the user submits a Pull Request and Crabot is called upon, it posts a Comment on that pull request giving the user a list of different analysis it can do. The user can then interact with Crabot by posting a Comment consisting of the requested service. Crabot will further provide the user with the results as another Comment. 
+All the conversation with Crabot happen in the comment section of Github. As per Use Case scenario, this can be a Pull Request's comment section, or a Commit's comment section.
 
 ## Selenium Testing
 
