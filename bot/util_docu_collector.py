@@ -38,22 +38,34 @@ DOCUMENTATION
 // ....
 """
 
-def Rit_check
-subprocess.call(["doxygen", "-g", "config-file"])
-configFile = open('config-file', 'r')
-fileContent = configFile.read()
-configFile.close()
-splitContent = fileContent.split()
+def rit_check():
+	# Get the patches
 
-cnt = 0
-length = len(splitContent)
-while(cnt < length)
-	if(splitContent[cnt] == "EXTRACT_ALL" )
-		splitContent[cnt+2] = "YES"
-	if(splitContent[cnt] == "GENERATE_RTF")
-		splitContent[cnt+2] = "YES"
-fileContentUpdate = .join(splitContent)
-configFile = open('config-file', 'w')
+	# Doxygen script
+	subprocess.call(["doxygen", "-g", "config-file"])
+	subprocess.call("perl -pi -w -e 's/EXTRACT_ALL            = NO/EXTRACT_ALL            = YES/g;' config-file", shell=True)
+	subprocess.call("perl -pi -w -e 's/GENERATE_MAN           = NO/GENERATE_MAN           = YES/g;' config-file", shell=True)
+	subprocess.call("perl -pi -w -e 's/EXTRACT_PRIVATE        = NO/EXTRACT_PRIVATE        = YES/g;' config-file", shell=True)
+	subprocess.call("perl -pi -w -e 's/EXTRACT_STATIC         = NO/EXTRACT_STATIC         = YES/g;' config-file", shell=True)
+	subprocess.call("perl -pi -w -e 's/GENERATE_HTML          = YES/GENERATE_HTML          = NO/g;' config-file", shell=True)
+	subprocess.call("perl -pi -w -e 's/GENERATE_LATEX         = YES/GENERATE_LATEX         = NO/g;' config-file", shell=True)
+	subprocess.call(["doxygen", "config-file"])
 
-subprocess.call(["doxygen", "config-file"])
-#print ls_output
+	# Cat all the man pages of the patches
+	subprocess.call("cat *.3 >> document.3", shell=True)
+
+	# Convert the man pages to txt
+	subprocess.call("groff -t -e -mandoc -Tascii document.3 | col -bx > manpage.txt", shell=True)
+
+	# Strip off unneccesary details
+
+	# Read the txt file and post it as a comment. 
+
+	#print ls_output
+
+def main():
+	rit_check()
+
+
+if __name__=="__main__":
+	main()
