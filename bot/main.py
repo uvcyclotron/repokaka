@@ -17,7 +17,7 @@ from github import IssueComment, CommitComment
 
 app = Flask(__name__)
 #from post_comment import post_comment
-
+#ok
 COMMENT_ON_PR="pull"
 COMMENT_ON_ISSUE="issues"
 CODE_KAKA="codekaka"
