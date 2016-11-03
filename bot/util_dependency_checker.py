@@ -15,7 +15,9 @@ returns ..
 description..
 
 '''
-def util_dependency_checker():
+def util_dependency_checker(dict_payload):
+	print "dict payload is"
+	pritn dict_payload
 	return """
 Dependency Changes:
 ---------------------

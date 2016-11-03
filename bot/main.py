@@ -89,7 +89,7 @@ class crabot:
             return comment.find(CODE_KAKA)> -1
 
     #Process tagged comment
-    def process_tagged_comment(self,comment):
+    def process_tagged_comment(self,comment,dict_payload):
             print "comment is "+ comment
             reply=""
             results=""
@@ -98,7 +98,7 @@ class crabot:
             if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results"
                 results=util_coverage_calc()
-                results+=util_dependency_checker()
+                results+=util_dependency_checker(dict_payload)
                 results+=util_duplicates_checker()
                 results+=util_docu_collector()
                 return reply,results
@@ -109,7 +109,7 @@ class crabot:
             if comment.find('s2')>-1:
                 count+=1
                 reply+=", s2"
-                results+=util_dependency_checker()
+                results+=util_dependency_checker(dict_payload)
             if comment.find('s3')>-1:
                 count+=1
                 reply+=", s3"
@@ -151,7 +151,7 @@ class crabot:
             elif(pr_size<=PR_SIZE_MEDIUM):
                 re=""
                 reply+=" This is a medium sized Pull Request."
-                re,result=self.process_tagged_comment('@codekaka run all')
+                re,result=self.process_tagged_comment('@codekaka run all',dict_payload)
                 reply+=result
 
             elif(pr_size>PR_SIZE_MEDIUM):
@@ -165,7 +165,7 @@ class crabot:
         sha_num=dict_payload['comment']['commit_id']
         comment=dict_payload['comment']['body']
         if(self.is_codekaka_tagged(comment)):
-            reply,results=self.process_tagged_comment(comment)
+            reply,results=self.process_tagged_comment(comment,dict_payload)
             post_comment_status=post_commit_comment(reply+results, rest_git,self.user,self.repo,sha_num)
             print "SUCCESS" if isinstance(post_comment_status, CommitComment.CommitComment) else "FAILURE"
 
