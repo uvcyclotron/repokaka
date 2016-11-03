@@ -1,0 +1,10 @@
+Flask==0.10.1
+Jinja2==2.8
+MarkupSafe==0.23
+PyGithub==1.29
+Werkzeug==0.11.11
+argparse==1.2.1
+ceres==0.10.0-rc1
+flask-json-multidict==1.0.0
+itsdangerous==0.24
+wsgiref==0.1.2

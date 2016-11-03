@@ -64,7 +64,7 @@ class crabot:
             #Extracting payload and converting it from unicode to str
             str_req_dict=str(request_dict['payload'])
             temp_dict=str_req_dict.replace("'", "\"")
-
+	    temp_dict=str(str_req_dict)
             #loading a json object from the string
             dict_payload=json.loads(temp_dict)
             return dict_payload
@@ -121,7 +121,8 @@ class crabot:
 
             if count>0:
                 if(count==1):
-                    reply="You have selected option s1"
+                    reply=reply.replace(",","")
+                    reply="You have selected option "+reply
                 else:
                     reply="You have selected options "+reply
             else:
@@ -143,15 +144,18 @@ class crabot:
             pr_size=sloc_count(pr_diff_url)
             print pr_size
             if(pr_size<=PR_SIZE_SMALL):
-                reply="""Pull request was made succesfully and this is a small sized commit. Do you still want me to run analysis? \n
+                reply="""Pull request was made succesfully and this is a small sized Pull Request. Do you still want me to run analysis? \n
                         Reply with run all if you want to run.
                         """
 
             elif(pr_size<=PR_SIZE_MEDIUM):
-                reply+=" This is a medium sized commit."
+                re=""
+                reply+=" This is a medium sized Pull Request."
+                re,result=self.process_tagged_comment('@codekaka run all')
+                reply+=result
 
             elif(pr_size>PR_SIZE_MEDIUM):
-                reply="Pull request was made succesfully and this is a large sized commit."+ DESCRIPTION_TEXT
+                reply="Pull request was made succesfully and this is a large sized Pull Request."+ DESCRIPTION_TEXT
             post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
             print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
