@@ -20,3 +20,7 @@ kill pid
 If you want to run the bot only for short time then you can simply run it using 'python main.py'
 
 Whenever you make a change to the code of bot you need not stop and rerun the bot. Changes take effect immediately.
+
+<b>GumTree</b>
+Install java on ubuntu using:
+sudo apt-get install default-jre
