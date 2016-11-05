@@ -17,7 +17,7 @@ description..
 
 '''
 def util_coverage_calc():
-	if(request_type==COMMENT_ON_PR || request_type==COMMIT_COMMENT || request_type==PR):
+	if(request_type==COMMENT_ON_PR or request_type==COMMIT_COMMENT or request_type==PR):
 		pr_url = str(dict_payload['issue']['pull_request']['url'])
 		result = coverage_helper(pr_url)
 	if(result)
