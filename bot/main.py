@@ -9,6 +9,7 @@ from util_coverage_calc import util_coverage_calc
 from util_dependency_checker import util_dependency_checker
 from util_docu_collector import util_docu_collector
 from util_duplicates_checker import util_duplicates_checker
+from utils_crabot import get_list_changed_files
 from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
 from github import Github
@@ -100,7 +101,8 @@ class crabot:
                 results=util_coverage_calc()
                 results+=util_dependency_checker(dict_payload,request_type)
                 results+=util_duplicates_checker()
-                results+=util_docu_collector()
+                list_files=get_list_changed_files(dict_payload,request_type)
+                results+=util_docu_collector(list_files)
                 return reply,results
             if comment.find('s1')>-1:
                 count+=1
@@ -117,7 +119,8 @@ class crabot:
             if comment.find('s4')>-1:
                 count+=1
                 reply+=", s4."
-                results+=util_docu_collector()
+                list_files=get_list_changed_files(dict_payload,request_type)
+                results+=util_docu_collector(list_files)
 
             if count>0:
                 if(count==1):

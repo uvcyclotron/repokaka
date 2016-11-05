@@ -6,6 +6,7 @@
 from github import Github
 import urllib2
 import json
+from utils_crabot import get_list_changed_files
 
 '''
 method parameters:
@@ -56,36 +57,9 @@ def util_dependency_checker(dict_payload,request_type):
 	final_result=""
 	print '---------------------------------------------------Request type is ---------------------------------------------------'
 	print request_type
-	#if the comment is made on a PR
-	if(request_type==COMMENT_ON_PR):
-		url=str(dict_payload['issue']['pull_request']['url'])+"/files"
-		response=urllib2.urlopen(url)
-		print "INSIDE COMMENT_ON_PR"
-		data = json.load(response)
-		result=extract_result(data)
 
-	#if the comment is made on a commit
-	elif(request_type==COMMIT_COMMENT):
-		print "INSIDE COMMIT_COMMET"
-		commit_id= dict_payload['comment']['commit_id']
-		path=dict_payload['repository']['commits_url']
-		url=str(path.split('{')[0])+"/"+str(commit_id)
-		print "url is:",url
-		response=urllib2.urlopen(url)
-		data = json.load(response)
-		data=data['files']
-		print "data is ",data
-		result=extract_result(data)
-
-
-	#Triggered when a PR is made.
-	elif(request_type==PR):
-		print "INSIDE PR"
-		url=str(dict_payload['pull_request']['url'])+"/files"
-		response=urllib2.urlopen(url)
-		data = json.load(response)
-		result=extract_result(data)
-
+	list_files=get_list_changed_files(dict_payload,request_type)
+	result=extract_result(list_files)
 	added_code,removed_code=format_result(result)
 
 	if(bool(added_code) or bool(removed_code)):
