@@ -98,7 +98,7 @@ class crabot:
 	    comment=comment.lower()
             if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results"
-                results=util_coverage_calc()
+                results=util_coverage_calc(dict_payload, request_type)
                 results+=util_dependency_checker(dict_payload,request_type)
                 results+=util_duplicates_checker()
                 list_files=get_list_changed_files(dict_payload,request_type)
@@ -107,7 +107,7 @@ class crabot:
             if comment.find('s1')>-1:
                 count+=1
                 reply+=" s1"
-                results=util_coverage_calc()
+                results=util_coverage_calc(dict_payload, request_type)
             if comment.find('s2')>-1:
                 count+=1
                 reply+=", s2"

@@ -4,6 +4,7 @@
 # for CRA-BOT
 
 from github import Github
+from coverage_calc.coverage_helper import coverage_helper
 
 
 '''
@@ -16,13 +17,10 @@ description..
 
 '''
 def util_coverage_calc():
-	return """
-   COVERAGE
----------------
-/src/path/to/file1/             43 %
-/src/path/to/file2/             39 %
-/src/path/to/file3/             73 %
-/src/path/to/file4/             98 %
-/src/path/to/file5/             54 %
-/src/path/to/file6/             71 %
-"""
+	if(request_type==COMMENT_ON_PR || request_type==COMMIT_COMMENT || request_type==PR):
+		pr_url = str(dict_payload['issue']['pull_request']['url'])
+		result = coverage_helper(pr_url)
+	if(result)
+		return result
+	else
+		return "Could not find coverage information from Cobertura!"
