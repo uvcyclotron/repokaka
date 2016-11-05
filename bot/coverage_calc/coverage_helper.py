@@ -41,8 +41,7 @@ def coverage_helper(pull_url):
 	#
 	try:
 
-		call('mkdir temp', shell=True)							# make temp dir
-		print 1/0
+		call('mkdir temp', shell=True)							# make temp dir		
 		call("git clone " + repouri, shell=True, cwd='./temp') 	# clone repo in temp
 
 

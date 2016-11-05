@@ -205,6 +205,7 @@ class crabot:
 #Main function that handles the post request
 @app.route('/<user>/<repo>/<method>',methods=['POST'])
 def func_main(user,repo,method):
+	print "**************************" , request.form
         crabot_obj=crabot(user,repo,method,request)
         crabot_obj.process_request()
         return "Obtained data"
