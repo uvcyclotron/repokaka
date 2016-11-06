@@ -48,6 +48,7 @@ def coverage_helper(pull_url):
 		# do maven build, and then run cobertura
 		#
 		cmdlist = list()
+		cmdlist.append("git checkout mvn")				#TODO remove later
 		cmdlist.append("mvn install") 						# build project
 		cmdlist.append("mvn cobertura:cobertura")			# run cobertura
 		print cmdlist
@@ -57,9 +58,11 @@ def coverage_helper(pull_url):
 
 		# cobertura report parsing
 		cob_path = './temp/' + reponame + '/target/site/cobertura/frame-summary.html'
+		#print "cob_path = " 
+		#print cob_path
 		if os.path.isfile(cob_path):
 			# print 'yes'
-			parse_coverage_results(cob_path)
+			return parse_coverage_results(cob_path)
 		else:
 			return "Unable to generate Coverage report! Possibly a build error!"
 
@@ -72,7 +75,7 @@ def coverage_helper(pull_url):
 		
 	finally:
 		print 'deleting temp dir'
-		call('rm -rf temp', shell=True)							# remove temp
+#		call('rm -rf temp', shell=True)							# remove temp
 
 
 def parse_coverage_results(cobertura_report_path):
@@ -80,8 +83,13 @@ def parse_coverage_results(cobertura_report_path):
 	with open(cobertura_report_path) as coverage:
 		# print coverage.read()
 		tree = html.fromstring(coverage.read())
+		#print tree
 		classes = tree.xpath("//tbody//tr//td//table//td[@class='percentgraph']/text()")
-		return "Line Coverage: "+ classes[0] + "\nBranch Coverage: " + classes[1]
+		if(classes):
+			retstr = "Line Coverage: "+ classes[0] + "\nBranch Coverage: " + classes[1]
+			return retstr 
+		else:
+			return "Null classes"
 
 		# linecoverage = [int(x[:-1]) for x in classes[2::2]]
 		# branchcoverage = [int(x[:-1]) for x in classes[3::2]]
