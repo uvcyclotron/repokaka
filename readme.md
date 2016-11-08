@@ -11,6 +11,6 @@ We are working on an exciting bot! We think it can help software developers save
 
 + Milestone: [Design](design.md)
 + Milestone: [Bot] (bot.md) 
-+ Milestone: Service
++ Milestone: [Service] (service.md)
 + Milestone: Deploy
 + Milestone: Report
