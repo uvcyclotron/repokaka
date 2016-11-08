@@ -67,3 +67,68 @@
 | Subflow            | S3      | [#30](https://github.ncsu.edu/uverma/crabot/issues/30)    |
 | Subflow            | S4      | [#30](https://github.ncsu.edu/uverma/crabot/issues/30)    |
 
+### WEEK 3
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats for new pull-requests (large-sized) |  |
+| Subflow            | S1                                                        | |
+| Subflow            | S2      |[#35](https://github.ncsu.edu/uverma/crabot/issues/35)     |
+| Subflow            | S3      |     |
+| Subflow            | S4      | [#33](https://github.ncsu.edu/uverma/crabot/issues/33) , [#34](https://github.ncsu.edu/uverma/crabot/issues/34)    |
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats for new pull-requests (medium-sized) |  |
+| Subflow            | S1                                                        | [#35](https://github.ncsu.edu/uverma/crabot/issues/35) |
+| Subflow            | S2      | [#33](https://github.ncsu.edu/uverma/crabot/issues/33) , [#34](https://github.ncsu.edu/uverma/crabot/issues/34)   |
+
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats for new pull-requests (Small-sized) |  |
+| Subflow            | S1                                                        |   |
+| Subflow            | S2      | [#35](https://github.ncsu.edu/uverma/crabot/issues/35)      |
+| Subflow            | S3      |     |
+| Subflow            | S4      | [#33](https://github.ncsu.edu/uverma/crabot/issues/33) , [#34](https://github.ncsu.edu/uverma/crabot/issues/34)    |
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats manually for specific commit(s) |  |
+| Subflow            | S1                                                        |     |
+| Subflow            | S2      | [#35](https://github.ncsu.edu/uverma/crabot/issues/35)     |
+| Subflow            | S3      |     |
+| Subflow            | S4      | [#33](https://github.ncsu.edu/uverma/crabot/issues/33) , [#34](https://github.ncsu.edu/uverma/crabot/issues/34)   |
+
+### WEEK 4
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats for new pull-requests (large-sized) |  |
+| Subflow            | S1                                                        | |
+| Subflow            | S2      |    |
+| Subflow            | S3      |     |
+| Subflow            | S4      | [#36](https://github.ncsu.edu/uverma/crabot/issues/36) , [#37](https://github.ncsu.edu/uverma/crabot/issues/37)    |
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats for new pull-requests (medium-sized) |  |
+| Subflow            | S1                                                        |  |
+| Subflow            | S2      | [#36](https://github.ncsu.edu/uverma/crabot/issues/36) , [#37](https://github.ncsu.edu/uverma/crabot/issues/37)   |
+
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats for new pull-requests (Small-sized) |  |
+| Subflow            | S1                                                        |   |
+| Subflow            | S2      |      |
+| Subflow            | S3      |     |
+| Subflow            | S4      | [#36](https://github.ncsu.edu/uverma/crabot/issues/36) , [#37](https://github.ncsu.edu/uverma/crabot/issues/37)    |
+
+| Deliverable        |Items/Status                                               | Issues/Tasks  |
+| -------------------|:---------------------------------------------------------:| -------------:|
+| Use Case           | Get Code-review-stats manually for specific commit(s) |  |
+| Subflow            | S1                                                        |     |
+| Subflow            | S2      |      |
+| Subflow            | S3      |     |
+| Subflow            | S4      | [#36](https://github.ncsu.edu/uverma/crabot/issues/36) , [#37](https://github.ncsu.edu/uverma/crabot/issues/37)   |
