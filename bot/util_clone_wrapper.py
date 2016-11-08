@@ -21,7 +21,16 @@ PR="pull_request"
 TMP_DIR_NAME = 'tmp_clone'
 
 
-
+'''
+method parameters: dictionary payload from github comment, type of request, flags indicating whether to run coverage util, and duplicate util
+	
+returns results as text
+description 
+	Parses the json to get repo clone url, and repo name
+	Downlaods the code from clone url
+	Calls utils which have call flag passed as true
+	Returns text with overall results
+'''
 def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 	if(request_type == COMMENT_ON_PR or request_type==COMMIT_COMMENT or request_type==PR):
 		pr_url = str(dict_payload['issue']['pull_request']['url'])

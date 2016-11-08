@@ -10,48 +10,18 @@ import requests
 import os.path 
 
 '''
-method parameters: url for pulls json data
+method parameters: tmp dir name variable, repository name
 	
-returns ..
 description 
-	Parses the json to get repo clone url, and repo name
-	Downlaods the code from clone url, builds it using maven, then runs coverage tool
+	Builds the source code using maven
+	Runs Cobertura code analysis
+	Parses report from Cobertura
 	Returns text with overall coverage result
 '''
-# TMP_DIR_NAME = 'tmp_coverage'
-# def coverage_helper(pull_url):
 def coverage_helper(TMP_DIR_NAME, reponame):
-
-	# get PR json
-	# with open('mvn_sample_txt') as pr_json:
-		# data = json.load(pr_json)
-	# print pull_url
-
-	# pull_json_text =  requests.get(pull_url)
-	# data = json.loads(pull_json_text.content)
-
-	# repouri = data['head']['repo']['clone_url']
-	# reponame = data['head']['repo']['name']
-
-	# temp testing
-	# repouri = 'https://github.com/checkstyle/checkstyle.git'
-	# reponame = 'checkstyle'
-	# print repouri, reponame
-
-	# get code from github
-	#
-	# try:
-
-		# call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
-		# call("git clone " + repouri, shell=True, cwd='./temp') 	# clone repo in temp
-
-
-		# do maven build, and then run cobertura
-		#
 
 	try:
 		cmdlist = list()
-		# cmdlist.append("git checkout mvn")				#TODO remove later
 		cmdlist.append("mvn install") 						# build project
 		cmdlist.append("mvn cobertura:cobertura")			# run cobertura
 		print cmdlist
@@ -81,7 +51,7 @@ def parse_coverage_results(cobertura_report_path):
 
 		classes = tree.xpath("//tbody//tr//td//table//td[@class='percentgraph']/text()")
 		if(classes):
-			retstr = "\nLine Coverage: "+ classes[0] + "\nBranch Coverage: " + classes[1]
+			retstr = "\nLine Coverage: "+ classes[0] + "\nBranch Coverage: " + classes[1] + "\n\n"
 			return retstr 
 		else:
 			return "Null classes"

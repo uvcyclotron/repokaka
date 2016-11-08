@@ -5,7 +5,6 @@ import collections
 from post_comment import post_comment
 from post_commit_comment import post_commit_comment
 from sloc_count import sloc_count
-from util_coverage_calc import util_coverage_calc
 from util_dependency_checker import util_dependency_checker
 from util_docu_collector import util_docu_collector
 from util_duplicates_checker import util_duplicates_checker
