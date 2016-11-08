@@ -9,6 +9,7 @@ from util_coverage_calc import util_coverage_calc
 from util_dependency_checker import util_dependency_checker
 from util_docu_collector import util_docu_collector
 from util_duplicates_checker import util_duplicates_checker
+from util_clone_wrapper import util_clone_wrapper
 from utils_crabot import get_list_changed_files
 from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
@@ -98,16 +99,23 @@ class crabot:
 	    comment=comment.lower()
             if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results"
-                results=util_coverage_calc(dict_payload, request_type)
+                # results=util_coverage_calc(dict_payload, request_type)
+                # clone wrapper handles coverage util, and duplicates util
+                results += util_clone_wrapper(dict_payload, request_type, True, True)
                 results+=util_dependency_checker(dict_payload,request_type)
-                results+=util_duplicates_checker()
+                # results+=util_duplicates_checker()
                 list_files=get_list_changed_files(dict_payload,request_type)
                 results+=util_docu_collector(list_files)
                 return reply,results
+
+            coverageUtilRunFlag = False
+            duplicateUtilRunFlag = False
+
             if comment.find('s1')>-1:
                 count+=1
                 reply+=" s1"
-                results=util_coverage_calc(dict_payload, request_type)
+                coverageUtilRunFlag = True
+                # results=util_coverage_calc(dict_payload, request_type)
             if comment.find('s2')>-1:
                 count+=1
                 reply+=", s2"
@@ -115,7 +123,12 @@ class crabot:
             if comment.find('s3')>-1:
                 count+=1
                 reply+=", s3"
-                results+=util_duplicates_checker()
+                duplicateUtilRunFlag = True
+                # results+=util_duplicates_checker()
+            # handle coverage and duplicates
+
+            results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
+                
             if comment.find('s4')>-1:
                 count+=1
                 reply+=", s4."

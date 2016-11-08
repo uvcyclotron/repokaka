@@ -18,19 +18,20 @@ description
 	Downlaods the code from clone url, builds it using maven, then runs coverage tool
 	Returns text with overall coverage result
 '''
-TMP_DIR_NAME = 'tmp_coverage'
-def coverage_helper(pull_url):
+# TMP_DIR_NAME = 'tmp_coverage'
+# def coverage_helper(pull_url):
+def coverage_helper(TMP_DIR_NAME, reponame):
 
 	# get PR json
 	# with open('mvn_sample_txt') as pr_json:
 		# data = json.load(pr_json)
 	# print pull_url
 
-	pull_json_text =  requests.get(pull_url)
-	data = json.loads(pull_json_text.content)
+	# pull_json_text =  requests.get(pull_url)
+	# data = json.loads(pull_json_text.content)
 
-	repouri = data['head']['repo']['clone_url']
-	reponame = data['head']['repo']['name']
+	# repouri = data['head']['repo']['clone_url']
+	# reponame = data['head']['repo']['name']
 
 	# temp testing
 	# repouri = 'https://github.com/checkstyle/checkstyle.git'
@@ -39,16 +40,18 @@ def coverage_helper(pull_url):
 
 	# get code from github
 	#
-	try:
+	# try:
 
-		call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
-		call("git clone " + repouri, shell=True, cwd='./temp') 	# clone repo in temp
+		# call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
+		# call("git clone " + repouri, shell=True, cwd='./temp') 	# clone repo in temp
 
 
 		# do maven build, and then run cobertura
 		#
+
+	try:
 		cmdlist = list()
-		cmdlist.append("git checkout mvn")				#TODO remove later
+		# cmdlist.append("git checkout mvn")				#TODO remove later
 		cmdlist.append("mvn install") 						# build project
 		cmdlist.append("mvn cobertura:cobertura")			# run cobertura
 		print cmdlist
@@ -67,10 +70,7 @@ def coverage_helper(pull_url):
 	except (RuntimeError, TypeError, NameError) as ex:
 		print 'exception occurred'
 		print ex
-
-	finally:
-		print 'deleting temp dir'
-		call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp
+		return 'Error generating coverage report!\n'
 
 
 def parse_coverage_results(cobertura_report_path):
