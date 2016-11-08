@@ -34,7 +34,7 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 
 		try:
 			call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
-			call("git clone " + repouri, shell=True, cwd='./temp') 	# clone repo in temp
+			call("git clone " + repouri, shell=True, cwd='./'+TMP_DIR_NAME) 	# clone repo in temp
 
 			cmdlist = list()
 			cmdlist.append("git checkout mvn")				#TODO remove later
