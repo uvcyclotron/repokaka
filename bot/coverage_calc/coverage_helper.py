@@ -18,6 +18,7 @@ description
 	Downlaods the code from clone url, builds it using maven, then runs coverage tool
 	Returns text with overall coverage result
 '''
+TMP_DIR_NAME = 'tmp_coverage'
 def coverage_helper(pull_url):
 
 	# get PR json
@@ -35,13 +36,12 @@ def coverage_helper(pull_url):
 	# repouri = 'https://github.com/checkstyle/checkstyle.git'
 	# reponame = 'checkstyle'
 	# print repouri, reponame
-	# return
 
 	# get code from github
 	#
 	try:
 
-		call('mkdir temp', shell=True)							# make temp dir		
+		call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
 		call("git clone " + repouri, shell=True, cwd='./temp') 	# clone repo in temp
 
 
@@ -54,27 +54,23 @@ def coverage_helper(pull_url):
 		print cmdlist
 
 		for cmd in cmdlist:
-			call(cmd, shell=True, cwd='./temp/'+reponame) 		# run util on cloned code
+			call(cmd, shell=True, cwd='./' + TMP_DIR_NAME + '/'+reponame) 		# run util on cloned code
 
 		# cobertura report parsing
-		cob_path = './temp/' + reponame + '/target/site/cobertura/frame-summary.html'
-
+		cob_path = './' + TMP_DIR_NAME + '/' + reponame + '/target/site/cobertura/frame-summary.html'
 		if os.path.isfile(cob_path):
 			# print 'yes'
 			return parse_coverage_results(cob_path)
 		else:
 			return "Unable to generate Coverage report! Possibly a build error!"
 
-		# run './cobertura/frame-summary.html' parse for all files
-		# for x in all modules:
-			# parse_coverage_results()
 	except (RuntimeError, TypeError, NameError) as ex:
 		print 'exception occurred'
 		print ex
-		
+
 	finally:
 		print 'deleting temp dir'
-		call('rm -rf temp', shell=True)							# remove temp
+		call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp
 
 
 def parse_coverage_results(cobertura_report_path):
