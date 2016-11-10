@@ -30,7 +30,9 @@ def util_docu_collector(data):
 
 	# Generate documentation
 	documentation = generate_documentation()
-	return documentation
+	if documentation and not documentation.isspace()
+		return documentation
+	else return "No documentation found for the changed files!"
 
 def generate_documentation():
 
