@@ -27,11 +27,13 @@ def extract_result(data):
 	for item in data:
 		relative_filename = item['filename']
 		if('.java' in relative_filename):
-			relative_filenames_list.append(relative_filename) 
+			if relative_filename not in relative_filenames_list:
+				relative_filenames_list.append(relative_filename) 
 			#strip relative path of filename
 			relative_path = relative_filename.rsplit('/', 1)[0]
 			raw_url = item['raw_url']
 			result[relative_path] = raw_url
+	print "RELATIVE FILE NAME STRING: " + str(relative_filenames_list)
 	return result
 
 
