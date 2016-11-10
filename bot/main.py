@@ -98,11 +98,9 @@ class crabot:
 	    comment=comment.lower()
             if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results"
-                # results=util_coverage_calc(dict_payload, request_type)
                 # clone wrapper handles coverage util, and duplicates util
-                results += util_clone_wrapper(dict_payload, request_type, True, True)
+                results+=util_clone_wrapper(dict_payload, request_type, True, True)
                 results+=util_dependency_checker(dict_payload,request_type)
-                # results+=util_duplicates_checker()
                 list_files=get_list_changed_files(dict_payload,request_type)
                 results+=util_docu_collector(list_files)
                 return reply,results
