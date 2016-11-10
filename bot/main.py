@@ -97,12 +97,15 @@ class crabot:
             count=0
 	    comment=comment.lower()
             if comment.find('run all')>-1:
-                reply="Ran all the analysis and here are the results"
-                # clone wrapper handles coverage util, and duplicates util
-                results+=util_clone_wrapper(dict_payload, request_type, True, True)
-                results+=util_dependency_checker(dict_payload,request_type)
+                reply="Ran all the analysis and here are the results:\n"
                 list_files=get_list_changed_files(dict_payload,request_type)
+                results += "\n----------------CODE DOCUMENTATION RESULTS:------------------------\n"
                 results+=util_docu_collector(list_files)
+                # clone wrapper handles coverage util, and duplicates util
+                results += "\n---------CODE COVERAGE AND CODE DUPLICATE CHECK RESULTS:-----------\n"
+                results+=util_clone_wrapper(dict_payload, request_type, True, True)
+                results += "\n---------------CODE DEPENDENCY CHECK RESULTS:----------------------\n"
+                results+=util_dependency_checker(dict_payload,request_type)
                 return reply,results
 
             coverageUtilRunFlag = False

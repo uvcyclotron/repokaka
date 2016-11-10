@@ -73,4 +73,6 @@ def util_dependency_checker(dict_payload,request_type):
 	final_result=final_result.replace("<","&lt;")
 	final_result=final_result.replace("<","&&gt;")
 	print final_result
+	if not final_result or final_result.isspace():
+		return "No new dependency added.\n"
 	return final_result

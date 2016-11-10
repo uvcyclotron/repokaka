@@ -21,7 +21,7 @@ def util_duplicates_checker(currentDirectory):
 	output=p.communicate()[0]
 	temp = output.strip()
 	if not temp:
-		return "No Duplicates Found" 
+		return "\nNo Duplicates Found\n" 
 	else:
-		return "Found these duplicates:\n-----------------------\n" + str(output)
+		return "\nFound these duplicates:\n-----------------------\n" + str(output)+"\n"
 
