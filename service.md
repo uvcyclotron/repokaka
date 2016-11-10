@@ -28,23 +28,34 @@ In this serivce the bot first clones the git repository. It then runs PMD on the
 When developer adds some new method which asks for a new dependency, xml file is updated with the new dependency.
 And code reviewer might be interested in the added or removed dependencies. This service analyses the patch of the pom.xml file and returns added new dependencies or removed dependencies. The logic of the service is completely developed by us without using any third party tools.
 
-### 
 
-##Use Case #1 
+### Use Cases
 
-####Get Code-review-stats for new pull-requests (large-sized)
+For each use-case, the requested services are invoked, and they run as explained in the previous section.
 
-##Use Case #2: 
+#### Use Case #1 Get Code-review-stats for new pull-requests (large-sized)
 
-####Get Code-review-stats automatically for new pull-requests (medium-sized) 
+	Happy Case: Bot is invoked automatically and then asks the user for any specific service to run.
+	Alternate Case: Bot is invoked automatically and then runs all the services. 
 
-##Use Case #3: 
 
-####Get Code-review-stats for new pull-requests (small-sized) 
+#### Use Case #2 Get Code-review-stats automatically for new pull-requests (medium-sized) 
 
-##Use Case #4: 
+	Happy Case: Bot is invoked automatically and then runs all the services. 
+	Alternate Case: Bot is invoked by the user and the user asks for the specific services to run. 
 
-####Get Code-review-stats manually for specific commit(s)
+
+#### Use Case #3 Get Code-review-stats for new pull-requests (small-sized) 
+
+	Happy Case: Bot is invoked automatically and then asks the user whether to run all the services. 
+	Alternate Case: Bot is invoked automatically and then asks the user for any specific service to run.
+
+
+#### Use Case #4 Get Code-review-stats manually for specific commit(s)
+
+	Happy Case: Bot is invoked by the user for the specific commit and the user asks the bot for the specific services to run. 
+	Alternate Case: N/A
+
 
 ## Task Tracking
 
