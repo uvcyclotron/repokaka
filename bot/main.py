@@ -116,18 +116,19 @@ class crabot:
                 reply+=" s1"
                 coverageUtilRunFlag = True
                 # results=util_coverage_calc(dict_payload, request_type)
-            if comment.find('s2')>-1:
-                count+=1
-                reply+=", s2"
-                results+=util_dependency_checker(dict_payload,request_type)
             if comment.find('s3')>-1:
                 count+=1
                 reply+=", s3"
+                results+=util_dependency_checker(dict_payload,request_type)
+            if comment.find('s2')>-1:
+                count+=1
+                reply+=", s2"
                 duplicateUtilRunFlag = True
                 # results+=util_duplicates_checker()
             # handle coverage and duplicates
 
-            results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
+            if coverageUtilRunFlag or duplicateUtilRunFlag:
+                results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
                 
             if comment.find('s4')>-1:
                 count+=1

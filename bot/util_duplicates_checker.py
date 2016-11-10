@@ -16,12 +16,13 @@ returns ..
 description..
 
 '''
-def util_duplicates_checker(currentDirectory):
-	p=subprocess.Popen("/home/ubuntu/pmd/pmd-bin-5.4.1/bin/run.sh cpd --minimum-tokens 10 --files " + currentDirectory , shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+def util_duplicates_checker(currentFile):
+	p=subprocess.Popen("/home/ubuntu/pmd/pmd-bin-5.4.1/bin/run.sh cpd --minimum-tokens 10 --files " + currentFile , shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 	output=p.communicate()[0]
 	temp = output.strip()
 	if not temp:
-		return "\nNo Duplicates Found\n" 
+		return "\nNo duplicates found for file: " + currentFile + "\n" 
 	else:
-		return "\nFound these duplicates:\n-----------------------\n" + str(output)+"\n"
+		#return "\nFound these duplicates:\n-----------------------\n" + str(output)+"\n"
+		return "\nFound these duplicates for file: " + currentFile + "\n" + str(output)+"\n"
 

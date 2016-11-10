@@ -70,8 +70,8 @@ def util_dependency_checker(dict_payload,request_type):
 	if(bool(removed_code.replace("\n",""))):
 		final_result+="Removed Dependencies are: \n"+ removed_code+"\n"
 
-	final_result=final_result.replace("<","&lt;")
-	final_result=final_result.replace("<","&&gt;")
+	# final_result=final_result.replace("<","&lt;")
+	# final_result=final_result.replace(">","&gt;")
 	print final_result
 	if not final_result or final_result.isspace():
 		return "No new dependency added.\n"
