@@ -69,7 +69,7 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 				REPO_PATH = './' + TMP_DIR_NAME + '/'+reponame
 
 				cmdlist = list()
-				cmdlist.append("git checkout mvn")				#TODO remove later
+				cmdlist.append("git checkout MavenProject")				#TODO remove later
 				for cmd in cmdlist:
 					call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
 
