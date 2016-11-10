@@ -75,6 +75,7 @@ def format_result(fname, result):
 		elif str(item).startswith('-'):
 			removed_code+=str(item)[1:]+"\n"
 	result_list = added_code.split('\n')
+	# iterate through the files and for those java files containing pacakages select the correct documentation generated from Doxygen and add it to Patched_files list.
 	for item in result_list:
 		if str(item).startswith('package '):
 			temp1 = fname + ".3"
