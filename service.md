@@ -25,6 +25,8 @@ In this serivce the bot first clones the git repository. It then runs PMD on the
 
 ### Dependency Tracker
 
+When developer adds some new method which asks for a new dependency, xml file is updated with the new dependency.
+And code reviewer might be interested in the added or removed dependencies. This service analyses the patch of the pom.xml file and returns added new dependencies or removed dependencies. The logic of the service is completely developed by us without using any third party tools.
 
 ### 
 
