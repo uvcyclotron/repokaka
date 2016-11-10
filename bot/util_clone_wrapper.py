@@ -20,14 +20,16 @@ COMMIT_COMMENT="commit_comment"
 COMMENT_ON_PR="pull"
 PR="pull_request"
 TMP_DIR_NAME = 'tmp_clone'
+relative_filenames_list = []
 
 def extract_result(data):
 	result = {}
 	for item in data:
-		relative_path = item['filename']
-		if('.java' in relative_path):
+		relative_filename = item['filename']
+		if('.java' in relative_filename):
+			relative_filenames_list.append(relative_filename) 
 			#strip relative path of filename
-			relative_path = relative_path.rsplit('/', 1)[0]
+			relative_path = relative_filename.rsplit('/', 1)[0]
 			raw_url = item['raw_url']
 			result[relative_path] = raw_url
 	return result
@@ -87,7 +89,9 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 					results += str(coverage_helper(TMP_DIR_NAME, reponame))
 
 				if (duplicateFlag):
-					results += str(util_duplicates_checker(REPO_PATH))
+					for filename in relative_filenames_list:
+						results += str(util_duplicates_checker(REPO_PATH + "/" + filename))	
+					#results += str(util_duplicates_checker(REPO_PATH))
 
 				if results and not results.isspace():			
 					return results
