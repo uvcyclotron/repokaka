@@ -1,37 +1,37 @@
 # CRABOT - Code Review Assist Bot
 
-## Services
-Bot listens to web-hooks as decribed, and calls the scripts for each requested service. Service implementations run as independent modules, and return analysis result as text to the parent calling method of bot.
+## 1. Services
+Bot listens to web-hooks as described in [bot.md](https://github.ncsu.edu/uverma/crabot/blob/master/bot.md#bot-platform), and calls the scripts for each requested service. Service implementations run as independent modules, and return analysis result as text to the parent calling method of bot.
 
-The services which need to clone the git repository, to get all the code first, are passed through a clone wrapper, which handles git cloning, and then invokes the required service modules. This helps the bot avoid cloning multiple times. 
+The services which need to get all the code first by cloning the git repository, are passed through a clone wrapper script, which handles git cloning, and then invokes the required service modules. This helps the bot avoid cloning multiple times in a single run. 
 
 
-### Documentation Collector
+#### a. Documentation Collector
 
-We are using *Doxygen* for generating documentation, where it goes through each source file, retrieves all in-code documentation for classes and methods and creates a man file. 
+We are using [*Doxygen*](http://www.stack.nl/~dimitri/doxygen/) for generating documentation, where it goes through each source file, retrieves all in-code documentation for classes and methods and creates a man file. 
 
-In this service the bot first generates Java files from the patched files (the files which have been modified in the PR) and later runs Doxygen on it. The documentation is generated as a Man Page which it then converts to a Text file. These results from the Text file are returned to the calling function.
+In this service the bot first generates Java files from the patched files (the files which have been modified in the PR) and later runs Doxygen on it. The documentation is generated as a Man Page which bot then converts to a Text file. The results from the Text file are returned to the calling method.
 
-### Code Coverage Reporter
+#### b. Code Coverage Reporter
 
-We are using *Cobertura* for calculating code coverage. It can work on maven-based projects, and provide results in well-formated HTML file.
+We are using [*Cobertura*](http://cobertura.github.io/cobertura/) for calculating code coverage. It can work on maven-based projects, and provide results in well-formated HTML file.
 
 In this service implementation, the bot first clones the git repository. It then builds the repository using maven, and then runs Cobertura tool on it, which genreates the report file.
 Finally, the bot parses the report html, and gets the the coverage report results. The results are reported back to the calling method.
 
-### Duplicate Code Checker
+#### c. Duplicate Code Checker
 
-We are using *PMD* for duplicate checking.  PMD checks for duplicate code in the current repository. 
+We are using [*PMD*](https://pmd.github.io/) for duplicate code checking in the repository. 
 
-In this serivce implementation, the bot first clones the git repository. It then runs PMD on the repository and returns the duplicate code that it finds.
+In this serivce implementation, the bot first clones the git repository. It then runs PMD on the repository and returns the information on duplicate code that it finds.
 
-### Dependency Tracker
+#### d. Dependency Tracker
 
-When developer adds some new method which asks for a new dependency, xml file is updated with the new dependency.
-And code reviewer might be interested in the added or removed dependencies. This service analyses the patch of the pom.xml file and returns added new dependencies or removed dependencies. The logic of the service is completely developed by us without using any third party tools.
+When developer adds some new method which asks for a new dependency, maven's `pom.xml` file is updated with the new dependency.
+And code reviewer might be interested in the added or removed dependencies. This service analyses the diff of the `pom.xml` file and returns added new dependencies or removed dependencies. The logic of the service is completely developed by us without using any third party tools.
 
 
-### Use Cases
+## 2. Use Cases
 
 For each use-case, the requested services are invoked, and they run as explained in the previous section.
 
