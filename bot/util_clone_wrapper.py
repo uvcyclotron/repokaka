@@ -69,7 +69,7 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 				REPO_PATH = './' + TMP_DIR_NAME + '/'+reponame
 
 				cmdlist = list()
-				cmdlist.append("git checkout MavenProject")				#TODO remove later
+				cmdlist.append("git checkout mvn")				#TODO remove later
 				for cmd in cmdlist:
 					call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
 
@@ -90,15 +90,7 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 
 				if (duplicateFlag):
 					for filename in relative_filenames_list:
-						pmdResponse = str(util_duplicates_checker(REPO_PATH + "/" + filename))	
-						if pmdResponse and not pmdResponse.isspace():
-							results += "\nNo Duplicates Found:\n-----------------------\n"
-							results += pmdResponse
-						else:
-							results += "\nFound these duplicates:\n-----------------------\n" 
-							results += pmdResponse
-
-						#results += str(util_duplicates_checker(REPO_PATH + "/" + filename))	
+						results += str(util_duplicates_checker(REPO_PATH + "/" + filename))	
 					#results += str(util_duplicates_checker(REPO_PATH))
 
 				if results and not results.isspace():			
