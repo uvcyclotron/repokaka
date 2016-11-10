@@ -6,6 +6,10 @@ Bot listens to web-hooks as decribed, and calls the scripts for each requested s
 
 ### Documentation Collector
 
+We are using *Doxygen* for generating documentation, where it goes through each source file, retrieves all in-code documentation for classes and methods and creates a man file. 
+
+In this service the bot first generates Java files from the patched files (the files which have been modified in the PR) and later runs Doxygen on it. The documentation is generated as a Man Page which it then converts to a Text file. These results from the Text file are returned to the calling function.
+
 ### Code Coverage
 
 We are using *Cobertura* for calculating code coverage. It can work on maven-based projects, and provide results in well-formated HTML file.
@@ -13,8 +17,11 @@ We are using *Cobertura* for calculating code coverage. It can work on maven-bas
 In this service implementation, the bot first clones the git repository. It then builds the repository using maven, and then runs Cobertura tool on it, which genreates the report file.
 Finally, the bot parses the report html, and gets the the coverage report results. The results are reported back to the calling method.
 
-
 ### Duplicate Checker
+
+We are using *PMD* for duplicate checker.  PMD checks for duplicate code in the current repository. 
+
+In this serivce the bot first clones the git repository. It then runs PMD on the repository and returns the duplicate code that it finds.
 
 ### Dependency Tracker
 
