@@ -35,7 +35,7 @@ def get_list_changed_files(dict_payload,request_type):
 	return data
 
 
-def get_data_for_PR(dict_payload,request_type):
+def get_PR_repo_details(dict_payload,request_type):
 	#if the comment is made on a PR
 	if(request_type==COMMENT_ON_PR):
 		pr_url = str(dict_payload['issue']['pull_request']['url'])
@@ -48,19 +48,18 @@ def get_data_for_PR(dict_payload,request_type):
 	#if the comment is made on a commit
 	elif(request_type==COMMIT_COMMENT):
 		print "INSIDE COMMIT_COMMET"
-		commit_id= dict_payload['comment']['commit_id']
-		path=dict_payload['repository']['commits_url']
-		url=str(path.split('{')[0])+"/"+str(commit_id)
-		print "url is:",url
-		response=urllib2.urlopen(url)
-		data = json.load(response)
-		data=data['files']
+		repouri = dict_payload['repository']['clone_url']
+		reponame = dict_payload['repository']['name']
 
 	#Triggered when a PR is made.
 	elif(request_type==PR):
 		print "INSIDE PR"
-		url=str(dict_payload['pull_request']['url'])+"/files"
-		response=urllib2.urlopen(url)
-		data = json.load(response)
+		pr_url = str(dict_payload['pull_request']['url'])
+		pull_json_text =  requests.get(pr_url)
+		data = json.loads(pull_json_text.content)
 
-	return data
+		repouri = data['head']['repo']['clone_url']
+		reponame = data['head']['repo']['name']
+
+
+	return repouri, reponame
