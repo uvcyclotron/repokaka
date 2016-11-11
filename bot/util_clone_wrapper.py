@@ -52,7 +52,7 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 	result=extract_result(list_files)
 
 	if result:
-		if(request_type == COMMENT_ON_PR or request_type==PR):
+		if(request_type == COMMENT_ON_PR):
 			
 			#data=get_list_changed_files(dict_payload,request_type)
 			#result=extract_result(data)
@@ -116,6 +116,74 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 			finally:
 				print 'deleting temp dir'
 				call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp	
+
+
+		elif(request_type==PR):
+			
+			#data=get_list_changed_files(dict_payload,request_type)
+			#result=extract_result(data)
+
+			#if result:
+
+
+			pr_url = str(dict_payload['pull_request']['url'])
+
+			pull_json_text =  requests.get(pr_url)
+			data = json.loads(pull_json_text.content)
+
+			repouri = data['head']['repo']['clone_url']
+			reponame = data['head']['repo']['name']
+
+			try:
+				if os.path.exists(TMP_DIR_NAME):
+					call('rm -rf ' + TMP_DIR_NAME, shell=True)	
+
+				call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
+				call("git clone " + repouri, shell=True, cwd='./'+TMP_DIR_NAME) 	# clone repo in temp
+
+				REPO_PATH = './' + TMP_DIR_NAME + '/'+reponame
+
+				cmdlist = list()
+				cmdlist.append("git checkout MavenProject")				#TODO remove later
+				for cmd in cmdlist:
+					call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
+
+				#replace files from result dictionary
+				for relative_path, raw_url in result.iteritems():
+					call('cd ' + REPO_PATH + '/' + relative_path, shell=True) 
+					call("curl -H 'Accept: application/vnd.github.v3.raw' -O -L '" + raw_url, shell = True)		#downlaod & replace files
+					call('cd ' + REPO_PATH, shell=True)		#back to src directory of repo
+
+				############################
+				# NOW WE HAVE CODE CLONED INTO TMP_DIR_NAME FOLDER
+				# WE CAN RUN REQUESTED ANALYSIS NOW
+				# CALL MODULES, and GET RESULTS
+				############################
+				results = ""
+				if (coverageFlag):
+					results += str(coverage_helper(TMP_DIR_NAME, reponame))
+
+				if (duplicateFlag):
+					for filename in relative_filenames_list:
+						results += str(util_duplicates_checker(REPO_PATH + "/" + filename))	
+					#results += str(util_duplicates_checker(REPO_PATH))
+
+				if results and not results.isspace():			
+					return results
+				else:
+					return "No results found for coverage and duplicates checks!"
+
+
+
+			except (RuntimeError, TypeError, NameError) as ex:
+				print 'exception occurred'
+				print ex
+
+			finally:
+				print 'deleting temp dir'
+				call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp	
+
+
 
 		elif(request_type==COMMIT_COMMENT):
 			print "INSIDE COMMIT_COMMET"
