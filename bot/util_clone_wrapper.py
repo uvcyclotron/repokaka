@@ -56,7 +56,7 @@ def call_coverage_duplicate_utils(repouri, reponame):
 		#replace files from result dictionary
 		for relative_path, raw_url in result.iteritems():
 			call('cd ' + REPO_PATH + '/' + relative_path, shell=True) 
-			call("curl -H 'Accept: application/vnd.github.v3.raw' -O -L '" + raw_url, shell = True)		#downlaod & replace files
+			call("curl -H 'Accept: application/vnd.github.v3.raw' -O -L " + raw_url, shell = True)		#downlaod & replace files
 			call('cd ' + REPO_PATH, shell=True)		#back to src directory of repo
 
 		############################
