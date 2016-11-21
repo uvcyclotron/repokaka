@@ -39,9 +39,7 @@ DESCRIPTION_TEXT="""Do you want me to run any or all of the following analysis?
 PR_COMMENT="issue_comment"
 COMMIT_COMMENT="commit_comment"
 
-# PR_SIZE_SMALL=10
 PR_SIZE_SMALL=18
-# PR_SIZE_MEDIUM=15
 PR_SIZE_MEDIUM=22
 #PR_SIZE_LARGE=2
 
@@ -161,17 +159,18 @@ class crabot:
             issue_num=dict_payload['pull_request']['number']
             pr_diff_url=dict_payload['pull_request']['diff_url']
             pr_size=sloc_count(pr_diff_url)
-            print pr_size
+            print "\n\n\n PR_SIZE is: ",pr_size
             if(pr_size<=PR_SIZE_SMALL):
                 reply="""Pull request was made succesfully and this is a small sized Pull Request. Do you still want me to run analysis? \n
                         Reply with run all if you want to run.
                         """
 
             elif(pr_size<=PR_SIZE_MEDIUM):
-                re=""
+                reply=""
+		temp=""
                 reply+=" This is a medium sized Pull Request."
-                re,result=self.process_tagged_comment('@codekaka run all',dict_payload,PR)
-                reply+=result
+                temp,result=self.process_tagged_comment('@codekaka run all',dict_payload,PR)
+                reply+=temp+result
 
             elif(pr_size>PR_SIZE_MEDIUM):
                 reply="Pull request was made succesfully and this is a large sized Pull Request."+ DESCRIPTION_TEXT
