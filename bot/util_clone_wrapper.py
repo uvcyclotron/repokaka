@@ -104,6 +104,8 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 	if result:
 		#if(request_type == COMMENT_ON_PR):
 			repouri, reponame = get_PR_repo_details(dict_payload, request_type)
+			print "repouri = ", repouri
+			print "reponame = ", reponame
 			return(call_coverage_duplicate_utils(repouri, reponame))
 
 
