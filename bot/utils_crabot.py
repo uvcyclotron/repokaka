@@ -1,5 +1,6 @@
 import urllib2
 import json
+import requests
 
 PR_COMMENT="issue_comment"
 COMMIT_COMMENT="commit_comment"
