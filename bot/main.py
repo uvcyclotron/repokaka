@@ -39,8 +39,10 @@ DESCRIPTION_TEXT="""Do you want me to run any or all of the following analysis?
 PR_COMMENT="issue_comment"
 COMMIT_COMMENT="commit_comment"
 
-PR_SIZE_SMALL=10
-PR_SIZE_MEDIUM=15
+# PR_SIZE_SMALL=10
+PR_SIZE_SMALL=18
+# PR_SIZE_MEDIUM=15
+PR_SIZE_MEDIUM=22
 #PR_SIZE_LARGE=2
 
 class crabot:
