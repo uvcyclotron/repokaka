@@ -1,0 +1,54 @@
+---
+
+ - name: adding credentials to root account
+   lineinfile: create=yes dest=/root/.boto insertafter=EOF line="{{ item }}" owner=root group=root
+   with_items:
+   - '[Credentials]'
+   - 'aws_access_key_id="{{ aws_key}}"'
+   - 'aws_secret_access_key="{{ aws_secret }}"'
+
+ - name: Install git
+   sudo: true
+   apt: pkg={{ item }} state=latest update_cache=true
+   with_items:
+     - git
+
+ - name: 'Add Node.js PPA'
+   tags: 'nodejs'
+   become: 'yes'
+   become_method: 'sudo'
+   shell: "curl --silent --location https://deb.nodesource.com/setup_6.x | sudo -E bash -"
+
+ - name: 'Install node, npm'
+   tags: 'nodejs'
+   become: 'yes'
+   become_method: 'sudo'
+   apt: >
+     pkg=nodejs
+
+ - name: Install forever
+   sudo: true
+   npm: name=forever global=yes state=present
+ - name: clone git
+   sudo: true
+   git: repo=https://github.com/CSC-DevOps/App.git dest=/home/ubuntu/git_repo clone=yes
+ - name: cd into git and run npm install
+   sudo: true
+   shell: cd /home/ubuntu/git_repo ; npm install
+
+ - name: Run forever app
+   sudo: true
+   shell: cd /home/ubuntu/git_repo ; forever start main.js 3000
+
+ - name: Ensure bash, openssl, openssh-client,openssh-server
+   sudo: true
+   apt: pkg={{ item }} state=latest update_cache=true
+   with_items:
+     - bash
+     - openssl
+     - openssh-client
+     - openssh-server
+
+ - name: Clean up
+   sudo: true
+   shell: rm -rf /tmp/*
