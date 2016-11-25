@@ -1,0 +1,8 @@
+Ansible installation:
+
+Java
+flask
+python
+doxygen
+cobertura
+pmd
