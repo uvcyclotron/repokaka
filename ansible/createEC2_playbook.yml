@@ -5,8 +5,8 @@
    vars:
     keypair: se_hw5
     instance_type: t2.micro
-    security_group: ec2
-    image: ami-09e27439
+    security_group: crabot
+    image: ami-db2689bb
     region: us-west-2
    tasks:
      - name: Creating EC2 instance
@@ -19,14 +19,20 @@
         wait: true
         count: 1
         instance_tags:
-         Name: ec2
-       register: ec2
+         Name: ec2_crabot
+       register: ec2_crabot
      - name: add the instance to a group called launched
-       add_host: hostname={{ec2.instances[0].public_ip }} groups=launched
-       with_items: '{{ec2.instances}}'
+       add_host: hostname={{ec2_crabot.instances[0].public_ip }} groups=launched
+
+
      - name: wait for SSH
-       wait_for: host={{ item.public_dns_name }} port=22 delay=60 timeout=320 state=started
-       with_items: '{{ec2.instances}}'
+       wait_for: host={{ ec2_crabot.instances[0].public_dns_name }} port=22 delay=60 timeout=320 state=started
+
+     - name: Curl subscribe
+       shell: "curl -u 'codekaka:codekaka123' -i https://api.github.com/hub -F 'hub.mode=subscribe' -F 'hub.topic=https://github.com/codekaka/Repo1/events/pull_request' -F 'hub.callback=http://{{ ec2_crabot.instances[0].public_dns_name }}:5000/codekaka/Repo1/pull_request'"
+
+
+
 
 
 
@@ -38,3 +44,4 @@
    vars:
      aws_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
      aws_secret: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+     host_ip: "{{ host_ip_crab }}"

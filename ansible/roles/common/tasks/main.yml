@@ -7,48 +7,21 @@
    - 'aws_access_key_id="{{ aws_key}}"'
    - 'aws_secret_access_key="{{ aws_secret }}"'
 
- - name: Install git
-   sudo: true
-   apt: pkg={{ item }} state=latest update_cache=true
-   with_items:
-     - git
+ - name: 'Run bot'
+   shell: 'python /home/ubuntu/crabot/bot/main.py &'
 
- - name: 'Add Node.js PPA'
-   tags: 'nodejs'
-   become: 'yes'
-   become_method: 'sudo'
-   shell: "curl --silent --location https://deb.nodesource.com/setup_6.x | sudo -E bash -"
+ - name: 'Changing permissions'
+   file: path=/home/ubuntu/crabot/bot/main.py owner=root mode=7777
 
- - name: 'Install node, npm'
-   tags: 'nodejs'
-   become: 'yes'
-   become_method: 'sudo'
-   apt: >
-     pkg=nodejs
+ - name: 'Cd and run'
+   script: /home/ubuntu/crabot/bot/main.py
+   become: true
+   become_user: root
 
- - name: Install forever
-   sudo: true
-   npm: name=forever global=yes state=present
- - name: clone git
-   sudo: true
-   git: repo=https://github.com/CSC-DevOps/App.git dest=/home/ubuntu/git_repo clone=yes
- - name: cd into git and run npm install
-   sudo: true
-   shell: cd /home/ubuntu/git_repo ; npm install
+ - name: 'apt update'
+   apt:
+     upgrade: dist
 
- - name: Run forever app
-   sudo: true
-   shell: cd /home/ubuntu/git_repo ; forever start main.js 3000
-
- - name: Ensure bash, openssl, openssh-client,openssh-server
-   sudo: true
-   apt: pkg={{ item }} state=latest update_cache=true
-   with_items:
-     - bash
-     - openssl
-     - openssh-client
-     - openssh-server
-
- - name: Clean up
-   sudo: true
-   shell: rm -rf /tmp/*
+ - name: 'apt upgrade'
+   apt:
+     update-cache: yes
