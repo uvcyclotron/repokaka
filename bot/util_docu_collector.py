@@ -37,6 +37,7 @@ def util_docu_collector(data):
 
 def generate_documentation():
 
+	documentation = ""
 	# Doxygen script
 	subprocess.call("doxygen -g config-file", shell=True, cwd = "./temp_docu_generator")
 	subprocess.call("perl -pi -w -e 's/EXTRACT_ALL            = NO/EXTRACT_ALL            = YES/g;' config-file", shell=True, cwd = "./temp_docu_generator")
