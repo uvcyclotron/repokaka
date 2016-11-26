@@ -21,16 +21,20 @@
 #   sudo: true
 #   npm: name=forever global=yes state=present
 
- - name: run python
-   sudo: true
-   shell: echo "#!/bin/bash\nwhile [1]; do python main.py; done" > /home/ubuntu/crabot/bot/a.sh ; chmod u+x /home/ubuntu/crabot/bot/a.sh ; /home/ubuntu/crabot/bot/a.sh
-#   shell: forever start -c python /home/ubuntu/crabot/bot/main.py
-
-
-
-# - name: Run crabot
+ #- name: run python
 #   sudo: true
-#   shell: cd /home/ubuntu/crabot/bot ; python main.py
+#   shell: echo "#!/bin/bash\nwhile [ 1 ]; do python main.py; done" > /home/ubuntu/crabot/bot/a.sh ; chmod +x /home/ubuntu/crabot/bot/a.sh ;
+
+
+#   shell: forever start -c python /home/ubuntu/crabot/bot/main.py
+# - name: run sh file
+#   sudo: true
+  # shell: /home/ubuntu/crabot/bot/a.sh
+
+
+ - name: Run crabot
+   sudo: true
+   shell: cd /home/ubuntu/crabot/bot ; python main.py
 
 
 # - name: 'apt update'
