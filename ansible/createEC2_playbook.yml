@@ -28,9 +28,14 @@
      - name: wait for SSH
        wait_for: host={{ ec2_crabot.instances[0].public_dns_name }} port=22 delay=60 timeout=320 state=started
 
-     - name: Curl subscribe
-       shell: "curl -u 'codekaka:codekaka123' -i https://api.github.com/hub -F 'hub.mode=subscribe' -F 'hub.topic=https://github.com/codekaka/Repo1/events/pull_request' -F 'hub.callback=http://{{ ec2_crabot.instances[0].public_dns_name }}:5000/codekaka/Repo1/pull_request'"
+     - name: Curl subscribe to PR
+       shell: curl -u "codekaka:codekaka123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/pull_request" -F "hub.callback=http://{{ ec2_crabot.instances[0].public_dns_name }}:5000/codekaka/Repo1/pull_request"
 
+     - name: Curl subscribe to PR Comment
+       shell: curl -u "codekaka:codekaka123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/issue_comment" -F "hub.callback=http://{{ ec2_crabot.instances[0].public_dns_name }}:5000/codekaka/Repo1/issue_comment"
+
+     - name: Curl subscribe to Commit comment
+       shell: curl -u "codekaka:codekaka123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/codekaka/Repo1/events/commit_comment" -F "hub.callback=http://{{ ec2_crabot.instances[0].public_dns_name }}:5000/codekaka/Repo1/commit_comment"
 
 
 
@@ -44,4 +49,3 @@
    vars:
      aws_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
      aws_secret: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
-     host_ip: "{{ host_ip_crab }}"

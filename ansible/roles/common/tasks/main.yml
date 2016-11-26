@@ -4,24 +4,39 @@
    lineinfile: create=yes dest=/root/.boto insertafter=EOF line="{{ item }}" owner=root group=root
    with_items:
    - '[Credentials]'
-   - 'aws_access_key_id="{{ aws_key}}"'
+   - 'aws_access_key_id="{{ aws_key }}"'
    - 'aws_secret_access_key="{{ aws_secret }}"'
 
- - name: 'Run bot'
-   shell: 'python /home/ubuntu/crabot/bot/main.py &'
+# - name: remove nohup
+#   sudo: true
+#   shell: rm /home/ubuntu/crabot/bot/nohup.out
+ #- name: Create a py file
+#   shell: echo "print 'hello'" > hello.py ; python hello.py
 
- - name: 'Changing permissions'
-   file: path=/home/ubuntu/crabot/bot/main.py owner=root mode=7777
+# - name: Install node
+#   sudo: true
+#   apt: name=nodejs-legacy state=present update_cache=true
 
- - name: 'Cd and run'
-   script: /home/ubuntu/crabot/bot/main.py
-   become: true
-   become_user: root
+# - name: Install forever
+#   sudo: true
+#   npm: name=forever global=yes state=present
 
- - name: 'apt update'
-   apt:
-     upgrade: dist
+ - name: run python
+   sudo: true
+   shell: echo "#!/bin/bash\nwhile [1]; do python main.py; done" > /home/ubuntu/crabot/bot/a.sh ; chmod u+x /home/ubuntu/crabot/bot/a.sh ; /home/ubuntu/crabot/bot/a.sh
+#   shell: forever start -c python /home/ubuntu/crabot/bot/main.py
 
- - name: 'apt upgrade'
-   apt:
-     update-cache: yes
+
+
+# - name: Run crabot
+#   sudo: true
+#   shell: cd /home/ubuntu/crabot/bot ; python main.py
+
+
+# - name: 'apt update'
+#   apt:
+#     upgrade: dist
+
+# - name: 'apt upgrade'
+#   apt:
+#     update-cache: yes
