@@ -14,6 +14,8 @@ from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
 from github import Github
 from github import IssueComment, CommitComment
+import logging
+logging.basicConfig(filename='/home/ubuntu/example.log',level=logging.INFO)
 #from validate_sha import validate_sha
 
 app = Flask(__name__)
@@ -129,7 +131,7 @@ class crabot:
 
             if coverageUtilRunFlag or duplicateUtilRunFlag:
                 results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
-                
+
             if comment.find('s4')>-1:
                 count+=1
                 reply+=", s4."
@@ -202,7 +204,8 @@ class crabot:
         dict_payload_uni=self.get_payload(request_dict)
         dict_payload=self.convert_dict_string(dict_payload_uni)
         rest_git=Github(os.environ['oauth_token'])
-        print dict_payload
+        #print dict_payload
+        logging.info(dict_payload)
 
 
         if(self.method==PR_COMMENT):
@@ -220,10 +223,13 @@ class crabot:
 #Main function that handles the post request
 @app.route('/<user>/<repo>/<method>',methods=['POST'])
 def func_main(user,repo,method):
-	print "**************************" , request.form
-        crabot_obj=crabot(user,repo,method,request)
-        crabot_obj.process_request()
-        return "Obtained data"
+	#print "**************************" , request.form
+    logging.info(request.form)
+    crabot_obj=crabot(user,repo,method,request)
+    print "#################################################################\n"
+    print "\tAfter creating the object\n"
+    crabot_obj.process_request()
+    return "Obtained data"
 
 
 if __name__ == '__main__':
