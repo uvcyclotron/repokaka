@@ -33,7 +33,7 @@
 
 
  - name: Run crabot
-   shell: su - ubuntu ; python /home/ubuntu/crabot/bot/main.py > /home/ubuntu/output.txt
+   shell: su - ubuntu ; python /home/ubuntu/crabot/bot/main.py >> /home/ubuntu/output.txt
 
  - name: 'apt update'
    apt:
