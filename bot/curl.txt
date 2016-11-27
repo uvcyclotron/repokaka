@@ -6,3 +6,11 @@ curl -u "codekaka" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub
 
 To run the bot continuosly on ec2 use the screen command as this link suggests
 nohup python main.py
+
+
+curl -u "chethan1801:chethan123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/chethan1801/TestRepo/events/pull_request" -F "hub.callback=http://104.131.58.11:5000/chethan1801/TestRepo/pull_request"
+
+curl -u "chethan1801:chethan123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/chethan1801/TestRepo/events/issue_comment" -F "hub.callback=http://104.131.58.11:5000/chethan1801/TestRepo/issue_comment"
+
+curl -u "chethan1801:chethan123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/chethan1801/TestRepo/events/commit_comment" -F "hub.callback=http://104.131.58.11:5000/chethan1801/TestRepo/commit_comment"
+
