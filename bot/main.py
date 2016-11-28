@@ -102,7 +102,7 @@ class crabot:
             reply=""
             results=""
             count=0
-	        comment=comment.lower()
+	    comment=comment.lower()
             if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results:\n"
                 list_files=get_list_changed_files(dict_payload,request_type)
