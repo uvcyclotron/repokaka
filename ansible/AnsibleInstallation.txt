@@ -1,8 +1,12 @@
 Ansible installation:
 
+maven
 Java
-flask
 python
+pip
+flask
 doxygen
 cobertura
 pmd
+requests
+pygithub
