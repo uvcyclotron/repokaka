@@ -94,19 +94,19 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 		# WE CAN RUN REQUESTED ANALYSIS NOW
 		# CALL MODULES, and GET RESULTS
 		############################
-		results = ""
+		results = {}
 		if (coverageFlag):
-			results += str(coverage_helper(TMP_DIR_NAME, reponame))
+			results['coverage'] = str(coverage_helper(TMP_DIR_NAME, reponame))
 
 		if (duplicateFlag):
 			for filename in relative_filenames_list:
-				results += str(util_duplicates_checker(REPO_PATH + "/" + filename))	
+				results['duplicates'] = str(util_duplicates_checker(REPO_PATH + "/" + filename))	
 			#results += str(util_duplicates_checker(REPO_PATH))
 
-		if results and not results.isspace():			
+		if results:			
 			return results
 		else:
-			return "\nNo results found for coverage and duplicates checks!\n"
+			return None
 
 	except (RuntimeError, TypeError, NameError) as ex:
 		print 'exception occurred'
