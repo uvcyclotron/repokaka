@@ -14,16 +14,19 @@ from flask import Flask, render_template, request, url_for,jsonify
 from flask_json_multidict import get_json_multidict
 from github import Github
 from github import IssueComment, CommitComment
-import logging
-logging.basicConfig(filename='/home/ubuntu/example.log',level=logging.INFO)
+#import logging
+#logging.basicConfig(filename='/home/ubuntu/example.log',level=logging.INFO)
 #from validate_sha import validate_sha
 
 app = Flask(__name__)
 #from post_comment import post_comment
-#ok
+
+#If a comment is made on Pull Request
 COMMENT_ON_PR="pull"
+#If a comment is made on issues
 COMMENT_ON_ISSUE="issues"
 CODE_KAKA="codekaka"
+#If a Pull Request is used
 PR="pull_request"
 
 DESCRIPTION_TEXT="""Do you want me to run any or all of the following analysis?
@@ -45,6 +48,8 @@ PR_SIZE_SMALL=18
 PR_SIZE_MEDIUM=22
 #PR_SIZE_LARGE=2
 
+# Crabot class which takes care of all the crabot functionalities. It handles Pull request, Comment on pull request
+# And comment on commit events occuring on a repo where user @codekaka is added as a collaborator.
 class crabot:
     def __init__(self, user, repo, method,request):
         self.user=user
@@ -97,7 +102,7 @@ class crabot:
             reply=""
             results=""
             count=0
-	    comment=comment.lower()
+	        comment=comment.lower()
             if comment.find('run all')>-1:
                 reply="Ran all the analysis and here are the results:\n"
                 list_files=get_list_changed_files(dict_payload,request_type)
@@ -117,7 +122,6 @@ class crabot:
                 count+=1
                 reply+=" s1"
                 coverageUtilRunFlag = True
-                # results=util_coverage_calc(dict_payload, request_type)
             if comment.find('s3')>-1:
                 count+=1
                 reply+=", s3"
@@ -126,8 +130,7 @@ class crabot:
                 count+=1
                 reply+=", s2"
                 duplicateUtilRunFlag = True
-                # results+=util_duplicates_checker()
-            # handle coverage and duplicates
+                # handle coverage and duplicates
 
             if coverageUtilRunFlag or duplicateUtilRunFlag:
                 results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
@@ -164,12 +167,16 @@ class crabot:
             print "\n\n\n PR_SIZE is: ",pr_size
             if(pr_size<=PR_SIZE_SMALL):
                 reply="""Pull request was made succesfully and this is a small sized Pull Request. Do you still want me to run analysis? \n
-                        Reply with run all if you want to run.
+                        Reply with: \nrun s1: Code coverage,
+                        \nrun s2: Code Duplication,
+                        \nrun s3: Dependency Analysis,
+                        \nrun s4: Documentation
+                        \nrun all: To run all the above analysis
                         """
 
             elif(pr_size<=PR_SIZE_MEDIUM):
                 reply=""
-		temp=""
+		        temp=""
                 reply+=" This is a medium sized Pull Request."
                 temp,result=self.process_tagged_comment('@codekaka run all',dict_payload,PR)
                 reply+=temp+result
@@ -179,8 +186,6 @@ class crabot:
             post_comment_status=post_comment(reply, rest_git,self.user,self.repo,issue_num)
             print "SUCCESS" if isinstance(post_comment_status, IssueComment.IssueComment) else "FAILURE"
 
-
-
     def respond_to_commit_comment(self,rest_git,dict_payload):
         sha_num=dict_payload['comment']['commit_id']
         comment=dict_payload['comment']['body']
@@ -188,9 +193,6 @@ class crabot:
             reply,results=self.process_tagged_comment(comment,dict_payload,COMMIT_COMMENT)
             post_comment_status=post_commit_comment(reply+results, rest_git,self.user,self.repo,sha_num)
             print "SUCCESS" if isinstance(post_comment_status, CommitComment.CommitComment) else "FAILURE"
-
-
-
 
     def process_request(self):
         #Extracting the information from the request object
@@ -204,9 +206,8 @@ class crabot:
         dict_payload_uni=self.get_payload(request_dict)
         dict_payload=self.convert_dict_string(dict_payload_uni)
         rest_git=Github(os.environ['oauth_token'])
-        #print dict_payload
-        logging.info(dict_payload)
-
+        print dict_payload
+        #logging.info(dict_payload)
 
         if(self.method==PR_COMMENT):
                 print "inside PR_COMMENT"
@@ -215,22 +216,19 @@ class crabot:
                 print "inside PR"
                 self.respond_to_PR(rest_git,dict_payload)
         elif(self.method==COMMIT_COMMENT):
-            print "inside commit comment"
-
-            self.respond_to_commit_comment(rest_git,dict_payload)
+                print "inside commit comment"
+                self.respond_to_commit_comment(rest_git,dict_payload)
 
 
 #Main function that handles the post request
 @app.route('/<user>/<repo>/<method>',methods=['POST'])
 def func_main(user,repo,method):
-	#print "**************************" , request.form
-    logging.info(request.form)
+	print "**************************" , request.form
+    #logging.info(request.form)
     crabot_obj=crabot(user,repo,method,request)
-    print "#################################################################\n"
-    print "\tAfter creating the object\n"
     crabot_obj.process_request()
     return "Obtained data"
 
 
 if __name__ == '__main__':
-  app.run(host='0.0.0.0',debug=False)
+  app.run(host='0.0.0.0',debug=True)
