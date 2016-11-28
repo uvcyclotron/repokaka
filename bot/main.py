@@ -44,8 +44,8 @@ DESCRIPTION_TEXT="""Do you want me to run any or all of the following analysis?
 PR_COMMENT="issue_comment"
 COMMIT_COMMENT="commit_comment"
 
-PR_SIZE_SMALL=18
-PR_SIZE_MEDIUM=22
+PR_SIZE_SMALL=10
+PR_SIZE_MEDIUM=20
 #PR_SIZE_LARGE=2
 
 # Crabot class which takes care of all the crabot functionalities. It handles Pull request, Comment on pull request
@@ -144,9 +144,9 @@ class crabot:
             if count>0:
                 if(count==1):
                     reply=reply.replace(",","")
-                    reply="You have selected option "+reply
+                    reply="\nYou have selected option "+reply+"\n"
                 else:
-                    reply="You have selected options "+reply
+                    reply="\nYou have selected options "+reply+"\n"
             else:
                 reply=DESCRIPTION_TEXT
             return reply,results

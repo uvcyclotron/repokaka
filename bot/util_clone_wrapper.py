@@ -48,10 +48,10 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 
 		REPO_PATH = './' + TMP_DIR_NAME + '/'+reponame
 
-		cmdlist = list()
-		cmdlist.append("git checkout MavenProject")				#TODO remove later
-		for cmd in cmdlist:
-			call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
+		# cmdlist = list()
+		# cmdlist.append("git checkout MavenProject")				#TODO remove later
+		# for cmd in cmdlist:
+		# 	call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
 
 		#replace files from result dictionary
 		for relative_path, raw_url in result.iteritems():
@@ -75,7 +75,7 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 		if results and not results.isspace():			
 			return results
 		else:
-			return "No results found for coverage and duplicates checks!"
+			return "\nNo results found for coverage and duplicates checks!\n"
 
 	except (RuntimeError, TypeError, NameError) as ex:
 		print 'exception occurred'
@@ -104,4 +104,4 @@ def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 		repouri, reponame = get_PR_repo_details(dict_payload, request_type)
 		return(call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, duplicateFlag))		
 	else:
-		return "No java file found in Pull Request!\n"
+		return "\nNo java file found in Pull Request!\n"
