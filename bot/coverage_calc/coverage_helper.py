@@ -35,12 +35,12 @@ def coverage_helper(TMP_DIR_NAME, reponame):
 			# print 'yes'
 			return parse_coverage_results(cob_path)
 		else:
-			return "Unable to generate Coverage report! Possibly a build error!"
+			return "\nUnable to generate Coverage report!\n Possibly a build error!\n"
 
 	except (RuntimeError, TypeError, NameError) as ex:
-		print 'exception occurred'
+		print '\nException occurred\n'
 		print ex
-		return 'Error generating coverage report!\n'
+		return '\nError generating coverage report!\n'
 
 
 def parse_coverage_results(cobertura_report_path):
@@ -54,7 +54,7 @@ def parse_coverage_results(cobertura_report_path):
 			retstr = "\nLine Coverage: "+ classes[0] + "\nBranch Coverage: " + classes[1] + "\n\n"
 			return retstr 
 		else:
-			return "Null classes"
+			return "\nNull classes\n"
 
 		# linecoverage = [int(x[:-1]) for x in classes[2::2]]
 		# branchcoverage = [int(x[:-1]) for x in classes[3::2]]
