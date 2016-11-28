@@ -1,0 +1,55 @@
+---
+- hosts: node1
+  gather_facts: True
+  become: True
+  vars:
+    download_url: http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz
+    download_folder: /opt
+    java_name: "{{download_folder}}/jdk1.8.0_05"
+    java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"
+  tasks:
+    - name: Install apt packages
+      apt: name={{item}} state=latest
+      with_items:
+        - git
+        - vim
+        - ls
+  tasks:
+    - name: Download Java
+      command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
+
+    - name: Unpack archive
+      command: "tar -zxf {{java_archive}} -C {{download_folder}} creates={{java_name}}"
+
+    - name: Fix ownership
+      file: state=directory path={{java_name}} owner=root group=root recurse=yes
+
+    - name: Install default-jre
+      apt: name=default-jre state=latest
+
+    - name: Install default jdk
+      apt: name=default-jdk state=latest
+
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
+    - name: install pip
+      apt: name=python-pip state=latest
+
+    - name: Install maven
+      apt: name=maven state=latest
+
+    - name: Install flask
+      pip: name=flask state=latest
+
+    - name: Install doxygen
+      apt: name=doxygen state=latest
+    - name: Install cobertura
+      apt: name=cobertura state=latest
+    - name: Install unzip
+      apt: name=unzip state=latest
+    - name: Download PMD
+      get_url: url=https://sourceforge.net/projects/pmd/files/pmd/5.4.1/pmd-bin-5.4.1.zip/download dest=/home/vagrant/pmd.zip
+
+    - name: Unpack PMD
+      command: "unzip pmd.zip"      
