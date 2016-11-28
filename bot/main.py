@@ -112,7 +112,7 @@ class crabot:
                 
                 # clone wrapper handles coverage util, and duplicates util
                 results += "\nCODE COVERAGE AND CODE DUPLICATE CHECK RESULTS:\n-----------------------\n"
-                results += getCloneWrapperResult(dict_payload, request_type, True, True)
+                results += self.getCloneWrapperResult(dict_payload, request_type, True, True)
 
                 results += "\nCODE DEPENDENCY CHECK RESULTS:\n-----------------------\n"
                 results+=util_dependency_checker(dict_payload,request_type)
@@ -138,7 +138,7 @@ class crabot:
 
 
             if coverageUtilRunFlag or duplicateUtilRunFlag:
-                results += getCloneWrapperResult(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
+                results += self.getCloneWrapperResult(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
                 
                 # cloneWrapperResultDict = util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
                 # if cloneWrapperResultDict is not None:
@@ -172,7 +172,7 @@ class crabot:
                 reply=DESCRIPTION_TEXT
             return reply,results
 
-    def getCloneWrapperResult(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag):
+    def getCloneWrapperResult(self, dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag):
         results = ""
         cloneWrapperResultDict = util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
         if cloneWrapperResultDict is not None:
