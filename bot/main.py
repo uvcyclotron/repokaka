@@ -125,6 +125,7 @@ class crabot:
             if comment.find('s3')>-1:
                 count+=1
                 reply+=", s3"
+                results += "\nCODE DEPENDENCY CHECK RESULTS:\n-----------------------\n"
                 results+=util_dependency_checker(dict_payload,request_type)
             if comment.find('s2')>-1:
                 count+=1
@@ -132,13 +133,19 @@ class crabot:
                 duplicateUtilRunFlag = True
                 # handle coverage and duplicates
 
-            if coverageUtilRunFlag or duplicateUtilRunFlag:
+            if coverageUtilRunFlag:
+                results += "\nCODE COVERAGE CHECK RESULTS:\n-----------------------\n"
                 results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
+
+            if duplicateUtilRunFlag:
+                results += "\nCODE DUPLICATE CHECK RESULTS:\n-----------------------\n"
+                results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)    
 
             if comment.find('s4')>-1:
                 count+=1
                 reply+=", s4."
                 list_files=get_list_changed_files(dict_payload,request_type)
+                results += "\nCODE DOCUMENTATION RESULTS:\n-----------------------\n"
                 results+=util_docu_collector(list_files)
 
             if count>0:
