@@ -176,7 +176,7 @@ class crabot:
 
             elif(pr_size<=PR_SIZE_MEDIUM):
                 reply=""
-		        temp=""
+		temp=""
                 reply+=" This is a medium sized Pull Request."
                 temp,result=self.process_tagged_comment('@codekaka run all',dict_payload,PR)
                 reply+=temp+result
@@ -223,7 +223,7 @@ class crabot:
 #Main function that handles the post request
 @app.route('/<user>/<repo>/<method>',methods=['POST'])
 def func_main(user,repo,method):
-	print "**************************" , request.form
+    print "**************************" , request.form
     #logging.info(request.form)
     crabot_obj=crabot(user,repo,method,request)
     crabot_obj.process_request()
