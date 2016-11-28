@@ -33,12 +33,14 @@
 
 
  - name: Run crabot
-   shell: su - ubuntu ; python /home/ubuntu/crabot/bot/main.py >> /home/ubuntu/output.txt
+   shell: python /home/ubuntu/crabot/bot/main.py >> /home/ubuntu/output_1.txt
+   become: true
+   become_user: ubuntu
 
- - name: 'apt update'
-   apt:
-     upgrade: dist
+ #- name: 'apt update'
+#   apt:
+#     upgrade: dist
 
- - name: 'apt upgrade'
-   apt:
-     update-cache: yes
+# - name: 'apt upgrade'
+#   apt:
+#     update-cache: yes

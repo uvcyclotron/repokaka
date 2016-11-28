@@ -6,7 +6,7 @@
     keypair: se_hw5
     instance_type: t2.micro
     security_group: crabot
-    image: ami-eee44a8e
+    image: ami-09e14f69
     region: us-west-2
    tasks:
      - name: Creating EC2 instance
