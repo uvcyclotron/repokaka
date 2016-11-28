@@ -14,3 +14,22 @@ curl -u "chethan1801:chethan123" -i https://api.github.com/hub -F "hub.mode=subs
 
 curl -u "chethan1801:chethan123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/chethan1801/TestRepo/events/commit_comment" -F "hub.callback=http://104.131.58.11:5000/chethan1801/TestRepo/commit_comment"
 
+
+
+
+User: kakanotcollaborator
+Repo: TestRepo
+EC2: Utkarsh's EC2 instance - Ubuntu 14.04 - US-West-2
+
+curl -u "kakanotcollaborator:codekaka123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/kakanotcollaborator/TestRepo/events/pull_request" -F "hub.callback=http://35.165.6.113:5000/kakanotcollaborator/TestRepo/pull_request"
+
+curl -u "kakanotcollaborator:codekaka123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/kakanotcollaborator/TestRepo/events/issue_comment" -F "hub.callback=http://35.165.6.113:5000/kakanotcollaborator/TestRepo/issue_comment"
+
+curl -u "kakanotcollaborator:codekaka123" -i https://api.github.com/hub -F "hub.mode=subscribe" -F "hub.topic=https://github.com/kakanotcollaborator/TestRepo/events/commit_comment" -F "hub.callback=http://35.165.6.113:5000/kakanotcollaborator/TestRepo/commit_comment"
+
+
+
+Public DNS
+ec2-35-165-6-113.us-west-2.compute.amazonaws.com
+Public IP
+35.165.6.113

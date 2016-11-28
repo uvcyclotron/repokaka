@@ -23,6 +23,28 @@ PR="pull_request"
 TMP_DIR_NAME = 'tmp_clone'
 relative_filenames_list = []
 
+
+'''
+method parameters: dictionary payload from github comment, type of request, flags indicating whether to run coverage util, and duplicate util
+	
+returns results as text
+description 
+	Parses the json to get repo clone url, and repo name
+	Downlaods the code from clone url
+	Calls utils which have call flag passed as true
+	Returns text with overall results
+'''
+def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
+	list_files=get_list_changed_files(dict_payload,request_type)
+	result=extract_result(list_files)
+
+	if result:
+		repouri, reponame = get_PR_repo_details(dict_payload, request_type)
+		return(call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, duplicateFlag))		
+	else:
+		return "\nNo java file found in Pull Request!\n"		
+
+
 def extract_result(data):
 	result = {}
 	for item in data:
@@ -37,12 +59,21 @@ def extract_result(data):
 	print "RELATIVE FILE NAME STRING: " + str(relative_filenames_list)
 	return result
 
-
+'''
+This method acts as a wrapper for calling the utils which need to operate on the cloned code
+Currently, only 2 such modules:
+	-- coverage_helper : analyses code to calculate code coverage
+	-- util_duplicates_checker : analyses code to find duplcates
+Results are returned as a single text
+'''
 def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, duplicateFlag):
 	try:
+		# we clone code into a tmp directory
+		# clean out this directory if it already exists (from previous runs)
 		if os.path.exists(TMP_DIR_NAME):
 			call('rm -rf ' + TMP_DIR_NAME, shell=True)	
 
+		# create the tmp dir, and clone repo into that
 		call('mkdir '+TMP_DIR_NAME, shell=True)							# make temp dir
 		call("git clone " + repouri, shell=True, cwd='./'+TMP_DIR_NAME) 	# clone repo in temp
 
@@ -84,24 +115,3 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 	finally:
 		print 'deleting temp dir'
 		call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp	
-
-
-'''
-method parameters: dictionary payload from github comment, type of request, flags indicating whether to run coverage util, and duplicate util
-	
-returns results as text
-description 
-	Parses the json to get repo clone url, and repo name
-	Downlaods the code from clone url
-	Calls utils which have call flag passed as true
-	Returns text with overall results
-'''
-def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
-	list_files=get_list_changed_files(dict_payload,request_type)
-	result=extract_result(list_files)
-
-	if result:
-		repouri, reponame = get_PR_repo_details(dict_payload, request_type)
-		return(call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, duplicateFlag))		
-	else:
-		return "\nNo java file found in Pull Request!\n"
