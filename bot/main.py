@@ -111,7 +111,6 @@ class crabot:
                 results+=util_docu_collector(list_files)
                 
                 # clone wrapper handles coverage util, and duplicates util
-                results += "\nCODE COVERAGE AND CODE DUPLICATE CHECK RESULTS:\n-----------------------\n"
                 results += self.getCloneWrapperResult(dict_payload, request_type, True, True)
 
                 results += "\nCODE DEPENDENCY CHECK RESULTS:\n-----------------------\n"
@@ -138,22 +137,7 @@ class crabot:
 
 
             if coverageUtilRunFlag or duplicateUtilRunFlag:
-                results += self.getCloneWrapperResult(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
-                
-                # cloneWrapperResultDict = util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)
-                # if cloneWrapperResultDict is not None:
-                #     if coverageUtilRunFlag and 'coverage' in cloneWrapperResultDict:
-                #         results += "\nCODE COVERAGE CHECK RESULTS:\n-----------------------\n"
-                #         results += cloneWrapperResultDict['coverage']
-                #     if duplicateUtilRunFlag and 'duplicates' in cloneWrapperResultDict:
-                #         results += "\nCODE DUPLICATE CHECK RESULTS:\n-----------------------\n"
-                #         results += cloneWrapperResultDict['duplicates']
-                # else:
-                #     results += "\nNo results found for coverage and duplicates checks!\n"
-
-            # if duplicateUtilRunFlag:
-            #     results += "\nCODE DUPLICATE CHECK RESULTS:\n-----------------------\n"
-            #     results += util_clone_wrapper(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag)    
+                results += self.getCloneWrapperResult(dict_payload, request_type, coverageUtilRunFlag, duplicateUtilRunFlag) 
 
             if comment.find('s4')>-1:
                 count+=1
