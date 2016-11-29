@@ -15,6 +15,9 @@
         - vim
         - ls
   tasks:
+    - name: install python 2
+      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
+
     - name: Download Java
       command: "wget -q -O {{java_archive}} --no-check-certificate --no-cookies --header 'Cookie: oraclelicense=accept-securebackup-cookie' {{download_url}} creates={{java_archive}}"
 
@@ -29,9 +32,6 @@
 
     - name: Install default jdk
       apt: name=default-jdk state=latest
-
-    - name: install python 2
-      raw: test -e /usr/bin/python || (apt -y update && apt install -y python-minimal)
 
     - name: install pip
       apt: name=python-pip state=latest
@@ -52,4 +52,34 @@
       get_url: url=https://sourceforge.net/projects/pmd/files/pmd/5.4.1/pmd-bin-5.4.1.zip/download dest=/home/vagrant/pmd.zip
 
     - name: Unpack PMD
-      command: "unzip pmd.zip"      
+      command: "unzip pmd.zip"
+
+    - name: Install requests
+      pip: name=requests state=latest update_cache=true
+      become: true
+      become_user: root
+
+    - name: Install pygithub
+      pip: name=pygithub state=latest update_cache=true
+      become: true
+      become_user: root
+
+    - name: Install git
+      apt: name=git state=present update_cache=true
+      become: true
+      become_user: root
+
+    - name: Git clone
+      git: repo=https://github.ncsu.edu/uverma/crabot.git dest=/home/{{ansible_ssh_user}}
+      become: true
+      become_user: root
+
+    - name: Set OAuthToken
+      command: "echo 'oauth_token=c6b514af65d7dd63ec05bf67c08ff3ad45961373' >> /etc/environment"
+      become: true
+      become_user: root
+
+    - name: Set OAuthToken
+      command: "source /etc/environment"
+      become: true
+      become_user: root
