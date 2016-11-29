@@ -66,10 +66,10 @@ def util_dependency_checker(dict_payload,request_type):
 		final_result="\nDEPENDENCY CHANGE ANALYSIS:\n"
 
 	if(bool(added_code)):
-		final_result+= "Added Dependencies are:" + "```xml" + "\n" + added_code + "\n" + "```"
+		final_result+= "Added Dependencies are:\n" + "```xml" + "\n" + added_code + "\n" + "```"
 
 	if(bool(removed_code.replace("\n",""))):
-		final_result+= "Removed Dependencies are:" + "```xml" + "\n" + removed_code + "\n" + "```"
+		final_result+= "Removed Dependencies are:\n" + "```xml" + "\n" + removed_code + "\n" + "```"
 
 	# final_result=final_result.replace("<","&lt;")
 	# final_result=final_result.replace(">","&gt;")
