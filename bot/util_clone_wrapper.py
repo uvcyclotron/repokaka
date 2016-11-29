@@ -80,13 +80,19 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 		REPO_PATH = './' + TMP_DIR_NAME + '/'+reponame
 
 		# cmdlist = list()
-		# cmdlist.append("git checkout MavenProject")				#TODO remove later
 		# for cmd in cmdlist:
 		# 	call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
 
 		#replace files from result dictionary
+		print "===================CHANGED FILES============================="
+		print result
 		for relative_path, raw_url in result.iteritems():
 			#downlaod & replace files
+			print "-------------------------------"
+			print raw_url
+			print "-------------------------------"
+			if not os.path.exists(REPO_PATH + '/' + relative_path):
+				call('mkdir -p '+REPO_PATH + '/' + relative_path, shell=True)     # make directories if reqd
 			call("curl -H 'Accept: application/vnd.github.v3.raw' -O -L " + raw_url, shell = True, cwd = REPO_PATH + '/' + relative_path)
 
 		############################
@@ -114,4 +120,4 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 
 	finally:
 		print 'deleting temp dir'
-		call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp	
+		# call('rm -rf ' + TMP_DIR_NAME, shell=True)			# remove temp	
