@@ -36,9 +36,9 @@ def format_result(result):
 	result_list=result.split('\n')
 	for item in result_list:
 		if str(item).startswith('+'):
-			added_code+=str(item)[1:]
+			added_code+=str(item)[1:]+"\n"
 		elif str(item).startswith('-'):
-			removed_code+=str(item)[1:]
+			removed_code+=str(item)[1:]+"\n"
 
 	return added_code,removed_code
 
@@ -67,7 +67,8 @@ def util_dependency_checker(dict_payload,request_type):
 
 	if(bool(added_code)):
 		final_result+="Added Dependencies are: \n"+added_code+"\n"
-	if(bool(removed_code)):
+	removed_code.replace("\n","")
+	if(bool(removed_code):
 		final_result+="Removed Dependencies are: \n"+ removed_code+"\n"
 
 	# final_result=final_result.replace("<","&lt;")
