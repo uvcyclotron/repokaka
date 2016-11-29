@@ -76,25 +76,10 @@
         become_user: root
         pip: name=pygithub
 
-      - name: Set OAuthToken
-        command: "echo 'oauth_token=c6b514af65d7dd63ec05bf67c08ff3ad45961373' >> /etc/environment"
-
-      - name: source bashrc
-        sudo: no
-        shell: . /home/ubuntu/.bashrc
-
-
       - name: Git clone
         git: repo=https://github.com/uvcyclotron/repokaka.git dest=/home/{{ansible_ssh_user}}/{{wrapper_repo}}
         become: true
         become_user: root
-
-
-
-
-
-
-
 
 
       #- name: adding credentials to root account
