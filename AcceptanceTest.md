@@ -1,7 +1,7 @@
-####Idea:
-TestRepo is an open source project. A new user wants to add some cool features into the existing repo. To do this, he forks from the existing repo and adds his changes. He will then create a pull request and request the owner (chethan1801) of TestRepo to review his code changes. chethan1801 knows that his project is popular and he gets several requests from software engineers around the world to review the features they want to add. chethan1801 devises a clever bot, codekaka. codekaka performs the code reviews on the new pull requests and old commits as well. 
+#### Idea:
+TestRepo is an open source project. A new user wants to add some cool features into the existing repo. To do this, he forks from the existing repo and adds his changes. He will then create a pull request and request the owner (`@chethan1801`) of TestRepo to review his code changes. chethan1801 knows that his project is popular and he gets several requests from software engineers around the world to review the features they want to add. chethan1801 devises a clever bot, codekaka. codekaka performs the code reviews on the new pull requests and old commits as well. 
 
-####Please follow the steps:
+#### Please follow the steps:
 
 1. Fork from the existing repo https://github.com/chethan1801/TestRepo
 
@@ -19,7 +19,7 @@ TestRepo is an open source project. A new user wants to add some cool features i
 
 5. git push origin master
 
-6. Click on New pull request. Ensure that base fork is chethan1801/TestRepo and head fork is your own username/TestRepo. If there are no other open pull requests on https://github.com/chethan1801/TestRepo continue with step 7. Else, navigate to https://github.com/chethan1801/TestRepo and click on pull request associated with your user id. Skip to step 9.
+6. Click on New pull request. Ensure that base fork is `chethan1801/TestRepo` and head fork is your own `username/TestRepo`. If there are no other open pull requests on https://github.com/chethan1801/TestRepo continue with step 7. Else, navigate to https://github.com/chethan1801/TestRepo and click on pull request associated with your user id. Skip to step 9.
 
 7. Click on Create new pull request. 
 
@@ -34,9 +34,9 @@ TestRepo is an open source project. A new user wants to add some cool features i
 	                    Reply with run all if you want to run.
 	```
 
-	* 9b. Use case 2: For medium size change, codekaka does not wait and provides all the analysis
+	* 9b. Use case 2: For medium size change, codekaka does not wait for the user's prompt, and instead runs directly to provides all the analysis
 
-	* 9c. Use case 3: For large size change, codekaka initiates dialog
+	* 9c. Use case 3: For large size change, codekaka initiates dialog 
 
 	```
 	Pull request was made succesfully and this is a large sized Pull Request.Do you want me to run any or all of the following analysis?
