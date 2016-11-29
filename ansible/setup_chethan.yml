@@ -1,0 +1,163 @@
+---
+ - hosts: node0
+   gather_facts: false
+   become: yes
+   become_user: root
+   vars:
+     download_url: http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-x64.tar.gz
+     download_folder: /opt
+     java_name: "{{download_folder}}/jdk1.8.0_05"
+     java_archive: "{{download_folder}}/jdk-8u5-linux-x64.tar.gz"
+     aws_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+     aws_secret: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+     ansible_ssh_user: ubuntu
+     wrapper_repo: repo_base
+   tasks:
+      - name: install python
+        become: yes
+        become_user: root
+        apt: pkg=python state=latest update_cache=yes
+
+      - name: Install add-apt-repostory
+        become: yes
+        apt: name=software-properties-common state=latest
+
+      - name: install pip
+        become: yes
+        become_user: root
+        apt: name=python-pip state=latest
+      - name: Install requirements of lxml
+        apt: "pkg={{ item }} state=present update_cache=yes"
+        sudo: yes
+        with_items:
+          - python-dev
+          - libxml2
+          - libxml2-dev
+          - libxslt1-dev
+          - lib32z1-dev
+          - libssl-dev
+          - zlib1g-dev
+
+
+      - name: install flaskapp
+        become: yes
+        become_user: root
+        pip: name={{ item }}
+        with_items:
+          - lxml
+          - Flask
+          - Jinja2
+          - MarkupSafe
+          - PyGithub
+          - argparse
+          - flask-json-multidict
+          - itsdangerous
+          - wsgiref
+
+      - name: install git, unzip
+        become: yes
+        become_user: root
+        apt: pkg={{ item }} state=latest update_cache=yes
+        with_items:
+         - git
+         - unzip
+
+
+      - name: Unpack PMD
+        unarchive: src=https://sourceforge.net/projects/pmd/files/pmd/5.4.1/pmd-bin-5.4.1.zip/download dest=/home/ubuntu remote_src=yes
+
+      - name: Install requests
+        pip: name=requests
+        become: true
+        become_user: root
+
+      - name: Install pygithub
+        become: true
+        become_user: root
+        pip: name=pygithub
+
+      - name: Set OAuthToken
+        command: "echo 'oauth_token=c6b514af65d7dd63ec05bf67c08ff3ad45961373' >> /etc/environment"
+
+      - name: source bashrc
+        sudo: no
+        shell: . /home/ubuntu/.bashrc
+
+
+      - name: Git clone
+        git: repo=https://github.com/uvcyclotron/repokaka.git dest=/home/{{ansible_ssh_user}}/{{wrapper_repo}}
+        become: true
+        become_user: root
+
+
+
+
+
+
+
+
+
+      #- name: adding credentials to root account
+      #  become: yes
+      #  become_user: root
+      #  lineinfile: create=yes dest=/root/.boto insertafter=EOF line="{{ item }}" owner=root group=root
+      #  with_items:
+      #    - '[Credentials]'
+      #    - 'aws_access_key_id="{{ aws_key }}"'
+      #    - 'aws_secret_access_key="{{ aws_secret }}"'
+
+
+
+      - name: Add Oracle Java Repository
+        become: yes
+        apt_repository: repo='ppa:webupd8team/java'
+
+      - name: Accept Java 8 License
+        become: yes
+        debconf: name='oracle-java8-installer' question='shared/accepted-oracle-license-v1-1' value='true' vtype='select'
+
+      - name: Install Oracle Java 8
+        become: yes
+        apt: name={{item}} state=latest
+        with_items:
+          - oracle-java8-installer
+          - ca-certificates
+          - oracle-java8-set-default
+
+      - name: Install maven
+        become: yes
+        become_user: root
+        apt: name=maven state=latest
+      - name: Install doxygen
+        apt: name=doxygen state=latest
+      - name: Install cobertura
+        apt: name=cobertura state=latest
+      - name: Install unzip
+        apt: name=unzip state=latest
+      - name: Install Node.js
+        apt: pkg=nodejs-legacy state=present update_cache=true
+      - name: Install npm
+        apt: pkg=npm state=present update_cache=true
+      - name: Install Forever using npm
+        npm: name=forever global=yes state=present
+      - name: Set OAuthToken
+        command: "echo 'EXPORT oauth_token=c6b514af65d7dd63ec05bf67c08ff3ad45961373' >> /home/ubuntu/.bashrc"
+        become: true
+        become_user: root
+
+      - name: source bashrc
+        shell: . /home/ubuntu/.bashrc
+        become: true
+        become_user: root
+
+      - name: run bot
+        command: "forever start -c python /home/ubuntu/repo_base/bot/main.py"
+        environment:
+          oauth_token: c6b514af65d7dd63ec05bf67c08ff3ad45961373
+          JAVA_HOME: /usr/lib/jvm/java-8-oracle
+
+      - name: Echo my_env_var again
+        shell: "echo $oauth_token; echo $JAVA_HOME"
+        environment:
+          oauth_token: c6b514af65d7dd63ec05bf67c08ff3ad45961373
+          JAVA_HOME: /usr/lib/jvm/java-8-oracle
