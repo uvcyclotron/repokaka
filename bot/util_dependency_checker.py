@@ -8,16 +8,6 @@ import urllib2
 import json
 from utils_crabot import get_list_changed_files
 
-'''
-method parameters:
-	x		is
-
-returns ..
-
-description..
-
-'''
-
 PR_COMMENT="issue_comment"
 COMMIT_COMMENT="commit_comment"
 COMMENT_ON_PR="pull"
@@ -55,12 +45,20 @@ def util_dependency_checker(dict_payload,request_type):
 	url=''
 	result=''
 	final_result=""
-	print '---------------------------------------------------Request type is ---------------------------------------------------'
+	print '--------------------------------------------Request type is ---------------------------------------------'
 	print request_type
 
 	list_files=get_list_changed_files(dict_payload,request_type)
 	result=extract_result(list_files)
 	added_code,removed_code=format_result(result)
+	
+	# print "printing added code!"
+	# print added_code
+	# print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
+
+	# print "printing removed code!"
+	# print removed_code
+	# print "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 
 	if(bool(added_code) or bool(removed_code)):
 		final_result="\nDEPENDENCY CHANGE ANALYSIS:\n"
@@ -71,8 +69,6 @@ def util_dependency_checker(dict_payload,request_type):
 	if(bool(removed_code.replace("\n",""))):
 		final_result+= "Removed Dependencies are:\n" + "```xml" + "\n" + removed_code + "\n" + "```"
 
-	# final_result=final_result.replace("<","&lt;")
-	# final_result=final_result.replace(">","&gt;")
 	print final_result
 	if not final_result or final_result.isspace():
 		return "No new dependency added.\n"

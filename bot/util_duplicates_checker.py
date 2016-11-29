@@ -20,7 +20,8 @@ def util_duplicates_checker(currentFile):
 	p=subprocess.Popen("/home/ubuntu/pmd/pmd-bin-5.4.1/bin/run.sh cpd --minimum-tokens 10 --files " + currentFile , shell=True, stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 	output=p.communicate()[0]
 	temp = output.strip()
-	# Returing the duplicates found if any. 
+	# Returing the duplicates found if any.
+	currentFile = currentFile.split('/', 3)[3] 
 	if not temp:
 		return "\nNo duplicates found for file: " + currentFile + "\n" 
 	else:

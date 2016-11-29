@@ -36,28 +36,32 @@ description
 '''
 def util_clone_wrapper(dict_payload, request_type, coverageFlag, duplicateFlag):
 	list_files=get_list_changed_files(dict_payload,request_type)
-	result=extract_result(list_files)
+	dict_code_files, dict_other_files = extract_result(list_files)
 
-	if result:
+	if dict_code_files:
 		repouri, reponame = get_PR_repo_details(dict_payload, request_type)
-		return(call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, duplicateFlag))		
+		return(call_coverage_duplicate_utils(repouri, reponame, dict_code_files, dict_other_files, coverageFlag, duplicateFlag))
 	else:
 		return "\nNo java file found in Pull Request!\n"		
 
 
 def extract_result(data):
-	result = {}
+	dict_code_files = {}   # stores java (code) files
+	dict_other_files = {} 	   # stores other files
 	for item in data:
 		relative_filename = item['filename']
+		#strip relative path of filename
+		relative_path = relative_filename.rsplit('/', 1)[0]
+		raw_url = item['raw_url']
 		if('.java' in relative_filename):
 			if relative_filename not in relative_filenames_list:
 				relative_filenames_list.append(relative_filename) 
-			#strip relative path of filename
-			relative_path = relative_filename.rsplit('/', 1)[0]
-			raw_url = item['raw_url']
-			result[relative_path] = raw_url
+			dict_code_files[relative_path] = raw_url
+		else:
+			dict_other_files[relative_path] = raw_url	
+
 	print "RELATIVE FILE NAME STRING: " + str(relative_filenames_list)
-	return result
+	return dict_code_files, dict_other_files
 
 '''
 This method acts as a wrapper for calling the utils which need to operate on the cloned code
@@ -66,7 +70,7 @@ Currently, only 2 such modules:
 	-- util_duplicates_checker : analyses code to find duplcates
 Results are returned as a single text
 '''
-def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, duplicateFlag):
+def call_coverage_duplicate_utils(repouri, reponame, dict_code_files, dict_other_files, coverageFlag, duplicateFlag):
 	try:
 		# we clone code into a tmp directory
 		# clean out this directory if it already exists (from previous runs)
@@ -80,14 +84,26 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 		REPO_PATH = './' + TMP_DIR_NAME + '/'+reponame
 
 		# cmdlist = list()
-		# cmdlist.append("git checkout MavenProject")				#TODO remove later
 		# for cmd in cmdlist:
 		# 	call(cmd, shell=True, cwd=REPO_PATH) 		# run util on 
 
 		#replace files from result dictionary
-		for relative_path, raw_url in result.iteritems():
-			#downlaod & replace files
-			call("curl -H 'Accept: application/vnd.github.v3.raw' -O -L " + raw_url, shell = True, cwd = REPO_PATH + '/' + relative_path)
+		all_changed_files = dict_code_files.copy()
+		all_changed_files.update(dict_other_files)
+		print "===================CHANGED FILES============================="
+		print all_changed_files
+		for relative_path, raw_url in all_changed_files.iteritems():
+			# downlaod & replace files with changed files 
+			print "-------------------------------"
+			print raw_url
+			print REPO_PATH
+			print relative_path
+			if "/" not in relative_path:
+				relative_path = ""
+			print "-------------------------------"
+			if not os.path.exists(REPO_PATH + '/' + relative_path):
+				call('mkdir -p '+REPO_PATH + '/' + relative_path, shell=True)     # make directories if reqd
+			call("wget " + raw_url, shell = True, cwd = REPO_PATH + '/' + relative_path)
 
 		############################
 		# NOW WE HAVE CODE CLONED INTO TMP_DIR_NAME FOLDER
@@ -114,4 +130,4 @@ def call_coverage_duplicate_utils(repouri, reponame, result, coverageFlag, dupli
 
 	finally:
 		print 'deleting temp dir'
-		call('rm -rf ' + TMP_DIR_NAME, shell=True)							# remove temp	
+		call('rm -rf ' + TMP_DIR_NAME, shell=True)			# remove cloned directory
