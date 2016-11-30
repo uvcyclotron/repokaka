@@ -97,6 +97,7 @@ def format_result(fname, result):
 def get_patches(data):
 
     print data
+    patched_files[:] = []
     # iterate through the list and for each element save the patch value with name as the filename
     for a in data:
     	s = str(a['filename'])
