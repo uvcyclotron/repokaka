@@ -75,7 +75,7 @@
       become_user: root
 
     - name: Set OAuthToken
-      command: "echo 'oauth_token=c6b514af65d7dd63ec05bf67c08ff3ad45961373' >> /etc/environment"
+      command: "echo 'oauth_token=blah' >> /etc/environment"
       become: true
       become_user: root
 
