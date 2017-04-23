@@ -126,7 +126,7 @@
       - name: Install Forever using npm
         npm: name=forever global=yes state=present
       - name: Set OAuthToken
-        command: "echo 'EXPORT oauth_token=c6b514af65d7dd63ec05bf67c08ff3ad45961373' >> /home/ubuntu/.bashrc"
+        command: "echo 'EXPORT oauth_token=blah' >> /home/ubuntu/.bashrc"
         become: true
         become_user: root
 
@@ -138,11 +138,11 @@
       - name: run bot
         command: "forever start -c python /home/ubuntu/repo_base/bot/main.py"
         environment:
-          oauth_token: c6b514af65d7dd63ec05bf67c08ff3ad45961373
+          oauth_token: blah
           JAVA_HOME: /usr/lib/jvm/java-8-oracle
 
       - name: Echo my_env_var again
         shell: "echo $oauth_token; echo $JAVA_HOME"
         environment:
-          oauth_token: c6b514af65d7dd63ec05bf67c08ff3ad45961373
+          oauth_token: blah
           JAVA_HOME: /usr/lib/jvm/java-8-oracle
